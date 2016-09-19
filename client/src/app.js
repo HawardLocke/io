@@ -60,7 +60,9 @@ var GameOverLayer = cc.Layer.extend({
 });
 
 
-var StateBase = Class.extend({
+// status---------------------------------------------------------------------------
+
+var StateBase = cc.Class.extend({
     scene:null,
     layer:null,
     ctor:function(scene){
@@ -85,9 +87,12 @@ var StateAccount = StateBase.extend({
     },
 
     onEnter:function(){
+        cc.log("enter account");
         this._super();
         this.layer = new AccountLayer();
         this.scene.addChild(this.layer);
+        var root = ccs.load('res/account.json').node;
+        this.layer.addChild(root);
     },
     onExit:function(){
         this._super();
@@ -104,6 +109,7 @@ var StatePlay = StateBase.extend({
     },
 
     onEnter:function(){
+        cc.log("enter play");
         this._super();
         this.layer = new GamePlayLayer();
         this.scene.addChild(this.layer);
@@ -123,6 +129,7 @@ var StateOver = StateBase.extend({
     },
 
     onEnter:function(){
+        cc.log("enter over");
         this._super();
         this.layer = new GameOverLayer();
         this.scene.addChild(this.layer);
