@@ -44,8 +44,8 @@
       <file leaf-file-name="Base64Images.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/frameworks/cocos2d-html5/Base64Images.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43736017">
-              <caret line="23" column="78" selection-start-line="23" selection-start-column="78" selection-end-line="23" selection-end-column="78" />
+            <state vertical-scroll-proportion="0.39932886">
+              <caret line="21" column="74" selection-start-line="21" selection-start-column="74" selection-end-line="21" selection-end-column="74" />
               <folding />
             </state>
           </provider>
@@ -99,8 +99,8 @@
         <option value="$PROJECT_DIR$/src/app.js" />
         <option value="$PROJECT_DIR$/project.json" />
         <option value="$PROJECT_DIR$/src/resource.js" />
-        <option value="$PROJECT_DIR$/frameworks/cocos2d-html5/Base64Images.js" />
         <option value="$PROJECT_DIR$/main.js" />
+        <option value="$PROJECT_DIR$/frameworks/cocos2d-html5/Base64Images.js" />
       </list>
     </option>
   </component>
@@ -374,8 +374,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/frameworks/cocos2d-html5/Base64Images.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43736017">
-          <caret line="23" column="78" selection-start-line="23" selection-start-column="78" selection-end-line="23" selection-end-column="78" />
+        <state vertical-scroll-proportion="0.39932886">
+          <caret line="21" column="74" selection-start-line="21" selection-start-column="74" selection-end-line="21" selection-end-column="74" />
           <folding />
         </state>
       </provider>
