@@ -1,74 +1,85 @@
-import socket
-import asyncore
-import random
-import pickle
-import time
+import os
+import asyncio
+import json
+from aiohttp import web
 
-BUFFERSIZE = 512
+import settings
+from game import Game
 
-outgoing = []
+async def handle(request):
+    ALLOWED_FILES = ["index.html", "style.css"]
+    name = request.match_info.get('name', 'index.html')
+    if name in ALLOWED_FILES:
+        try:
+            with open(name, 'rb') as index:
+                return web.Response(body=index.read())
+        except FileNotFoundError:
+            pass
+    return web.Response(status=404)
 
-class Minion:
-  def __init__(self, ownerid):
-    self.x = 50
-    self.y = 50
-    self.ownerid = ownerid
 
-minionmap = {}
+async def wshandler(request):
+    print("Connected")
+    app = request.app
+    game = app["game"]
+    ws = web.WebSocketResponse()
+    await ws.prepare(request)
 
-def updateWorld(message):
-  arr = pickle.loads(message)
-  print(str(arr))
-  playerid = arr[1]
-  x = arr[2]
-  y = arr[3]
+    player = None
+    while True:
+        msg = await ws.receive()
+        if msg.tp == web.MsgType.text:
+            print("Got message %s" % msg.data)
 
-  if playerid == 0: return
+            data = json.loads(msg.data)
+            if type(data) == int and player:
+                # Interpret as key code
+                player.keypress(data)
+            if type(data) != list:
+                continue
+            if not player:
+                if data[0] == "new_player":
+                    player = game.new_player(data[1], ws)
+            elif data[0] == "join":
+                if not game.running:
+                    game.reset_world()
 
-  minionmap[playerid].x = x
-  minionmap[playerid].y = y
+                    print("Starting game loop")
+                    asyncio.ensure_future(game_loop(game))
 
-  remove = []
+                game.join(player)
 
-  for i in outgoing:
-    update = ['player locations']
+        elif msg.tp == web.MsgType.close:
+            break
 
-    for key, value in minionmap.items():
-      update.append([value.ownerid, value.x, value.y])
-    
-    try:
-      i.send(pickle.dumps(update))
-    except Exception:
-      remove.append(i)
-      continue
-    
-    print ('sent update data')
+    if player:
+        game.player_disconnected(player)
 
-    for r in remove:
-      outgoing.remove(r)
+    print("Closed connection")
+    return ws
 
-class MainServer(asyncore.dispatcher):
-  def __init__(self, port):
-    asyncore.dispatcher.__init__(self)
-    self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-    self.bind(('', port))
-    self.listen(10)
-  def handle_accept(self):
-    conn, addr = self.accept()
-    print ('Connection address:' + addr[0] + " " + str(addr[1]))
-    outgoing.append(conn)
-    playerid = random.randint(1000, 1000000)
-    playerminion = Minion(playerid)
-    minionmap[playerid] = playerminion
-    conn.send(pickle.dumps(['id update', playerid]))
-    SecondaryServer(conn)
+async def game_loop(game):
+    game.running = True
+    while 1:
+        game.next_frame()
+        if not game.count_alive_players():
+            print("Stopping game loop")
+            break
+        await asyncio.sleep(1./settings.GAME_SPEED)
+    game.running = False
 
-class SecondaryServer(asyncore.dispatcher_with_send):
-  def handle_read(self):
-    recievedData = self.recv(BUFFERSIZE)
-    if recievedData:
-      updateWorld(recievedData)
-    else: self.close()
 
-MainServer(4321)
-asyncore.loop()
+event_loop = asyncio.get_event_loop()
+event_loop.set_debug(True)
+
+app = web.Application()
+
+app["game"] = Game()
+
+app.router.add_route('GET', '/connect', wshandler)
+app.router.add_route('GET', '/{name}', handle)
+app.router.add_route('GET', '/', handle)
+
+# get port for heroku
+port = int(os.environ.get('PORT', 5000))
+web.run_app(app, port=port)
