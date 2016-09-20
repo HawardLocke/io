@@ -5,9 +5,11 @@ from aiohttp import web
 
 import settings
 from game import Game
+from datatypes import MsgType
+
 
 async def handle(request):
-    ALLOWED_FILES = ["index.html", "style.css"]
+    """ALLOWED_FILES = ["index.html", "style.css"]
     name = request.match_info.get('name', 'index.html')
     if name in ALLOWED_FILES:
         try:
@@ -15,7 +17,8 @@ async def handle(request):
                 return web.Response(body=index.read())
         except FileNotFoundError:
             pass
-    return web.Response(status=404)
+    return web.Response(status=404)"""
+    return web.Response(body=b'<h1>Index</h1>')
 
 
 async def wshandler(request):
@@ -38,7 +41,7 @@ async def wshandler(request):
             if type(data) != list:
                 continue
             if not player:
-                if data[0] == "new_player":
+                if data[0] == MsgType.csNewPlayer:
                     player = game.new_player(data[1], ws)
             elif data[0] == "join":
                 if not game.running:
@@ -80,6 +83,5 @@ app.router.add_route('GET', '/connect', wshandler)
 app.router.add_route('GET', '/{name}', handle)
 app.router.add_route('GET', '/', handle)
 
-# get port for heroku
 port = int(os.environ.get('PORT', 5000))
-web.run_app(app, port=port)
+web.run_app(app, host='127.0.0.1', port=port)

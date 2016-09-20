@@ -21,10 +21,10 @@
               "Plist": "ioui.plist"
             },
             "Scale9Enable": true,
-            "Scale9OriginX": 42,
-            "Scale9OriginY": 42,
-            "Scale9Width": 44,
-            "Scale9Height": 44,
+            "Scale9OriginX": 17,
+            "Scale9OriginY": 24,
+            "Scale9Width": 18,
+            "Scale9Height": 4,
             "AnchorPoint": {
               "ScaleX": 0.5,
               "ScaleY": 0.5
@@ -76,11 +76,10 @@
             "ShadowOffsetX": 2.0,
             "ShadowOffsetY": -2.0,
             "AnchorPoint": {
-              "ScaleX": 0.5,
               "ScaleY": 0.5
             },
             "Position": {
-              "X": 83.0,
+              "X": 35.0,
               "Y": 240.0
             },
             "Scale": {
@@ -93,15 +92,15 @@
             },
             "IconVisible": false,
             "PrePosition": {
-              "X": 0.1729,
+              "X": 0.0729,
               "Y": 0.75
             },
             "PreSize": {
               "X": 0.1896,
               "Y": 0.1281
             },
-            "LeftMargin": 37.5,
-            "RightMargin": 351.5,
+            "LeftMargin": 35.0,
+            "RightMargin": 354.0,
             "TopMargin": 59.5,
             "BottomMargin": 219.5,
             "Tag": 9,
@@ -115,8 +114,8 @@
                 "Scale9Enable": true,
                 "Scale9OriginX": 6,
                 "Scale9OriginY": 5,
-                "Scale9Width": 8,
-                "Scale9Height": 8,
+                "Scale9Width": 21,
+                "Scale9Height": 25,
                 "AnchorPoint": {
                   "ScaleY": 0.5
                 },
@@ -136,17 +135,17 @@
                 },
                 "PreSize": {
                   "X": 2.8132,
-                  "Y": 0.878
+                  "Y": 1.0976
                 },
                 "LeftMargin": 110.0,
                 "RightMargin": -275.0,
-                "TopMargin": 6.0,
-                "BottomMargin": -1.0,
+                "TopMargin": 1.5,
+                "BottomMargin": -5.5,
                 "Tag": 10,
                 "ActionTag": -91608051,
                 "Size": {
                   "X": 256.0,
-                  "Y": 36.0
+                  "Y": 45.0
                 },
                 "Name": "bg",
                 "ctype": "ImageViewObjectData"
@@ -157,7 +156,7 @@
                   "Path": "Arial.ttf",
                   "Plist": ""
                 },
-                "FontSize": 24,
+                "FontSize": 36,
                 "IsCustomSize": true,
                 "LabelText": "",
                 "PlaceHolderText": "",
@@ -175,7 +174,11 @@
                   "ScaleX": 1.0,
                   "ScaleY": 1.0
                 },
-                "CColor": {},
+                "CColor": {
+                  "R": 18,
+                  "G": 229,
+                  "B": 18
+                },
                 "IconVisible": false,
                 "PrePosition": {
                   "X": 1.2967,
@@ -183,19 +186,19 @@
                 },
                 "PreSize": {
                   "X": 2.6374,
-                  "Y": 0.6341
+                  "Y": 1.0244
                 },
                 "LeftMargin": 118.0,
                 "RightMargin": -267.0,
-                "TopMargin": 11.0,
-                "BottomMargin": 4.0,
+                "TopMargin": 3.0,
+                "BottomMargin": -4.0,
                 "Tag": 11,
                 "ActionTag": 622804552,
                 "Size": {
                   "X": 240.0,
-                  "Y": 26.0
+                  "Y": 42.0
                 },
-                "Name": "input",
+                "Name": "input1",
                 "ctype": "TextFieldObjectData"
               }
             ],
@@ -209,7 +212,7 @@
           },
           {
             "FontSize": 36,
-            "LabelText": "pswd",
+            "LabelText": "seed",
             "FontResource": {
               "Type": "Normal",
               "Path": "Arial.ttf",
@@ -227,11 +230,10 @@
             "ShadowOffsetX": 2.0,
             "ShadowOffsetY": -2.0,
             "AnchorPoint": {
-              "ScaleX": 0.5,
               "ScaleY": 0.5
             },
             "Position": {
-              "X": 83.0,
+              "X": 35.0,
               "Y": 166.0
             },
             "Scale": {
@@ -244,15 +246,15 @@
             },
             "IconVisible": false,
             "PrePosition": {
-              "X": 0.1729,
+              "X": 0.0729,
               "Y": 0.5188
             },
             "PreSize": {
-              "X": 0.175,
+              "X": 0.1646,
               "Y": 0.1281
             },
-            "LeftMargin": 41.0,
-            "RightMargin": 355.0,
+            "LeftMargin": 35.0,
+            "RightMargin": 366.0,
             "TopMargin": 133.5,
             "BottomMargin": 145.5,
             "Tag": 12,
@@ -266,8 +268,8 @@
                 "Scale9Enable": true,
                 "Scale9OriginX": 6,
                 "Scale9OriginY": 5,
-                "Scale9Width": 8,
-                "Scale9Height": 8,
+                "Scale9Width": 21,
+                "Scale9Height": 25,
                 "AnchorPoint": {
                   "ScaleY": 0.5
                 },
@@ -282,22 +284,22 @@
                 "CColor": {},
                 "IconVisible": false,
                 "PrePosition": {
-                  "X": 1.3095,
+                  "X": 1.3924,
                   "Y": 0.4146
                 },
                 "PreSize": {
-                  "X": 3.0476,
-                  "Y": 0.878
+                  "X": 3.2405,
+                  "Y": 1.0976
                 },
                 "LeftMargin": 110.0,
-                "RightMargin": -282.0,
-                "TopMargin": 6.0,
-                "BottomMargin": -1.0,
+                "RightMargin": -287.0,
+                "TopMargin": 1.5,
+                "BottomMargin": -5.5,
                 "Tag": 13,
                 "ActionTag": -1931656469,
                 "Size": {
                   "X": 256.0,
-                  "Y": 36.0
+                  "Y": 45.0
                 },
                 "Name": "bg",
                 "ctype": "ImageViewObjectData"
@@ -308,7 +310,7 @@
                   "Path": "Arial.ttf",
                   "Plist": ""
                 },
-                "FontSize": 24,
+                "FontSize": 36,
                 "IsCustomSize": true,
                 "LabelText": "",
                 "PlaceHolderText": "",
@@ -326,36 +328,40 @@
                   "ScaleX": 1.0,
                   "ScaleY": 1.0
                 },
-                "CColor": {},
+                "CColor": {
+                  "R": 18,
+                  "G": 229,
+                  "B": 18
+                },
                 "IconVisible": false,
                 "PrePosition": {
-                  "X": 1.4048,
+                  "X": 1.4937,
                   "Y": 0.4146
                 },
                 "PreSize": {
-                  "X": 2.8571,
-                  "Y": 0.6341
+                  "X": 3.038,
+                  "Y": 1.0244
                 },
                 "LeftMargin": 118.0,
-                "RightMargin": -274.0,
-                "TopMargin": 11.0,
-                "BottomMargin": 4.0,
+                "RightMargin": -279.0,
+                "TopMargin": 3.0,
+                "BottomMargin": -4.0,
                 "Tag": 14,
                 "ActionTag": -809452886,
                 "Size": {
                   "X": 240.0,
-                  "Y": 26.0
+                  "Y": 42.0
                 },
-                "Name": "input",
+                "Name": "input2",
                 "ctype": "TextFieldObjectData"
               }
             ],
             "ActionTag": -29764301,
             "Size": {
-              "X": 84.0,
+              "X": 79.0,
               "Y": 41.0
             },
-            "Name": "pswd",
+            "Name": "seed",
             "ctype": "TextObjectData"
           },
           {
@@ -366,27 +372,30 @@
               "Path": "Arial.ttf",
               "Plist": ""
             },
-            "TextColor": {},
+            "TextColor": {
+              "G": 165,
+              "B": 0
+            },
             "DisabledFileData": {
               "Type": "PlistSubImage",
-              "Path": "ioui/button2.png",
+              "Path": "ioui/press.png",
               "Plist": "ioui.plist"
             },
             "PressedFileData": {
               "Type": "PlistSubImage",
-              "Path": "ioui/button2.png",
+              "Path": "ioui/press.png",
               "Plist": "ioui.plist"
             },
             "NormalFileData": {
               "Type": "PlistSubImage",
-              "Path": "ioui/button1.png",
+              "Path": "ioui/frame.png",
               "Plist": "ioui.plist"
             },
             "Scale9Enable": true,
             "Scale9OriginX": 15,
             "Scale9OriginY": 11,
             "Scale9Width": 22,
-            "Scale9Height": 3,
+            "Scale9Height": 30,
             "OutlineColor": {
               "G": 0,
               "B": 0
@@ -418,18 +427,18 @@
               "Y": 0.2219
             },
             "PreSize": {
-              "X": 0.5,
-              "Y": 0.25
+              "X": 0.375,
+              "Y": 0.1875
             },
-            "LeftMargin": 120.0,
-            "RightMargin": 120.0,
-            "TopMargin": 209.0,
-            "BottomMargin": 31.0,
+            "LeftMargin": 150.0,
+            "RightMargin": 150.0,
+            "TopMargin": 219.0,
+            "BottomMargin": 41.0,
             "Tag": 15,
             "ActionTag": 1009114878,
             "Size": {
-              "X": 240.0,
-              "Y": 80.0
+              "X": 180.0,
+              "Y": 60.0
             },
             "Name": "start",
             "ctype": "ButtonObjectData"

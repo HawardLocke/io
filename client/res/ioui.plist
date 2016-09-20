@@ -4,49 +4,38 @@
 	<dict>
 		<key>frames</key>
 		<dict>
-			<key>ioui/button1.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{0,128},{52,25}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<true />
-				<key>sourceSize</key>
-				<string>{52,25}</string>
-			</dict>
-			<key>ioui/button2.png</key>
-			<dict>
-				<key>frame</key>
-				<string>{{0,180},{52,25}}</string>
-				<key>offset</key>
-				<string>{0,0}</string>
-				<key>rotated</key>
-				<true />
-				<key>sourceSize</key>
-				<string>{52,25}</string>
-			</dict>
 			<key>ioui/frame.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,0},{128,128}}</string>
+				<string>{{0,0},{52,52}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
 				<false />
 				<key>sourceSize</key>
-				<string>{128,128}</string>
+				<string>{52,52}</string>
 			</dict>
 			<key>ioui/input.png</key>
 			<dict>
 				<key>frame</key>
-				<string>{{0,232},{20,18}}</string>
+				<string>{{0,104},{33,35}}</string>
 				<key>offset</key>
 				<string>{0,0}</string>
 				<key>rotated</key>
-				<true />
+				<false />
 				<key>sourceSize</key>
-				<string>{20,18}</string>
+				<string>{33,35}</string>
+			</dict>
+			<key>ioui/press.png</key>
+			<dict>
+				<key>frame</key>
+				<string>{{0,52},{52,52}}</string>
+				<key>offset</key>
+				<string>{0,0}</string>
+				<key>rotated</key>
+				<false />
+				<key>sourceSize</key>
+				<string>{52,52}</string>
 			</dict>
 		</dict>
 		<key>metadata</key>
@@ -58,12 +47,12 @@
 			<key>realTextureFileName</key>
 			<string>ioui.png</string>
 			<key>size</key>
-			<string>{128,256}</string>
+			<string>{64,256}</string>
 		</dict>
 		<key>texture</key>
 		<dict>
 			<key>width</key>
-			<integer>128</integer>
+			<integer>64</integer>
 			<key>height</key>
 			<integer>256</integer>
 		</dict>

@@ -25,10 +25,10 @@
 
 var MsgType = {
     // c->s
-    csNewPlayer:1001,
-    csMove:1002,
+    csNewPlayer:"1001",
+    csMove:"1002",
     // s->c
-    scNewPlayer:2001,
+    scNewPlayer:"2001",
 };
 
 var NetWork = {
@@ -37,21 +37,19 @@ var NetWork = {
     msgHandlers:{},
 
     init:function(){
-        var ws_url = "ws://" + location.host + "/connect";
+        var ws_url = "ws://127.0.0.1:5000/connect";
         this.websock = new WebSocket(ws_url);
-        this.websock.onopen = this.openHandler;
-        this.websock.onmessage = this.messageHandler;
-        this.websock.onerror = function (e) {
-            cc.log(e.message);
-        };
+        this.websock.onopen = this.onOpen;
+        this.websock.onmessage = this.onMessage;
+        this.websock.onerror = this.onError;
     },
 
-    openHandler:function(e){
-        cc.log("socket open: "+e.message);
+    onOpen:function(e){
+        cc.log("NetWork open: "+e.message);
         $(document).bind("keydown", keyHandler);
     },
 
-    messageHandler:function(e) {
+    onMessage:function(e) {
         json = JSON.parse(e.data);
         if (!(json[0] instanceof Array))
             json = [json];
@@ -66,6 +64,10 @@ var NetWork = {
                 }
             }
         }
+    },
+
+    onError:function(e){
+        cc.log("NetWork error: "+e.message);
     },
 
     sendMessage:function(msgArray) {
@@ -95,13 +97,13 @@ function keyHandler(event) {
     if (!code && event.charCode)
         code = event.charCode;
 
-    if (ws && ws.readyState == WebSocket.OPEN) {
+    /*if (ws && ws.readyState == WebSocket.OPEN) {
         ws.send(code);
         event.preventDefault();
     }
     else {
         cc.log("Connection is closed");
-    }
+    }*/
 }
 
 
@@ -156,10 +158,10 @@ var StateAccount = StateBase.extend({
             uiroot.setPosition(x,y);
             this.accountUI = uiroot;
 
-            this.startBtn = ccui.helper.seekWidgetByName(root, "startBtn");
+            this.startBtn = ccui.helper.seekWidgetByName(uiroot, "start");
             this.startBtn.addTouchEventListener(this.OnStartButtonTouch, this);
-            this.nameInput = ccui.helper.seekWidgetByName(root, "name/input");
-            this.codeInput = ccui.helper.seekWidgetByName(root, "name/pswd");
+            this.nameInput = ccui.helper.seekWidgetByName(uiroot, "input1");
+            this.codeInput = ccui.helper.seekWidgetByName(uiroot, "input2");
         }
     },
 

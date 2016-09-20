@@ -4,6 +4,7 @@ from random import randint
 import settings
 from datatypes import Vector, Position, Draw
 
+
 class Player:
 
     HEAD_CHAR = "%"
