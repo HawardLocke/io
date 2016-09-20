@@ -67,6 +67,7 @@ cc.game.onStart = function(){
         , document.documentElement.clientHeight
         , cc.ResolutionPolicy.SHOW_ALL
     );
+    cc.Director.sharedDirector.setClearColor(cc.color(0, 0, 0, 255));
     // Instead of set design resolution, you can also set the real pixel resolution size
     // Uncomment the following line and delete the previous line.
     // cc.view.setRealPixelResolution(960, 640, cc.ResolutionPolicy.SHOW_ALL);
