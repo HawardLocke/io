@@ -9,7 +9,7 @@ class MsgHandler:
 	game = None
 
 	def __init__(self, _game):
-		self.game = _game
+		MsgHandler.game = _game
 		self.__handlers = {}
 
 	def regist(self, msg, handler):
@@ -22,7 +22,7 @@ class MsgHandler:
 
 	def on_msg(self, player, ws, data):
 		cmd = data
-		if data is list:
+		if type(data) == list:
 			cmd = data[0]
 		handler = self.__handlers.get(cmd)
 		if handler is not None:

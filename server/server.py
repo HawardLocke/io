@@ -35,11 +35,12 @@ async def wshandler(request):
 	return ws
 
 async def game_loop(game):
+	print("start loop")
 	tick = 1./settings.GAME_SPEED
 	while 1:
 		game.update_world(tick)
 		await asyncio.sleep(1./settings.GAME_SPEED)
-
+	print("end loop")
 
 event_loop = asyncio.get_event_loop()
 event_loop.set_debug(True)

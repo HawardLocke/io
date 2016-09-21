@@ -25,7 +25,7 @@ class Game:
 		guid = self._last_id
 
 		self.send_personal(ws, MsgType.scNewPlayer, name, guid)
-		self.send_personal(ws, MsgType.scWorldInfo, self._world)
+		# self.send_personal(ws, MsgType.scWorldInfo, self._world)
 
 		tp = randint(1, 9)
 		player = Player(guid, name, tp, ws)

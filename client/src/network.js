@@ -24,6 +24,7 @@ var NetWork = {
 		for (var i = 0; i < json.length; i++) {
 			var args = json[i];
 			var cmd = json[i][0];
+			cc.log("cmd is "+cmd)
 			var handlers = this.msgHandlers[cmd];
 			if (handlers == null){
 				for (var h = 0; h < json.length; h++){
@@ -34,7 +35,7 @@ var NetWork = {
 	},
 
 	onError:function(e){
-		cc.log("NetWork error: "+e.message);
+		cc.log("NetWork error......");
 	},
 
 	sendMessage:function(msgArray) {
