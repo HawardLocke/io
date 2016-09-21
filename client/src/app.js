@@ -1,266 +1,86 @@
 
-/*var AccountLayer = cc.Layer.extend({
-    sprite:null,
-
-    ctor:function () {
-        this._super();
-
-        var size = cc.winSize;
-
-        var helloLabel = new cc.LabelTTF("what we don't know", "Arial", 14);
-        helloLabel.x = size.width / 2;
-        helloLabel.y = size.height / 2 + 200;
-        this.addChild(helloLabel, 5);
-
-        this.sprite = new cc.Sprite(res.Splah_png);
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2
-        });
-        this.addChild(this.sprite, 0);
-
-        return true;
-    }
-});*/
-
-var MsgType = {
-    // c->s
-    csNewPlayer:"1001",
-    csMove:"1002",
-    // s->c
-    scNewPlayer:"2001",
-};
-
-var NetWork = {
-
-    websock:null,
-    msgHandlers:{},
-
-    init:function(){
-        var ws_url = "ws://127.0.0.1:5000/connect";
-        this.websock = new WebSocket(ws_url);
-        this.websock.onopen = this.onOpen;
-        this.websock.onmessage = this.onMessage;
-        this.websock.onerror = this.onError;
-    },
-
-    onOpen:function(e){
-        cc.log("NetWork open: "+e.message);
-        $(document).bind("keydown", keyHandler);
-    },
-
-    onMessage:function(e) {
-        json = JSON.parse(e.data);
-        if (!(json[0] instanceof Array))
-            json = [json];
-
-        for (var i = 0; i < json.length; i++) {
-            var args = json[i];
-            var cmd = json[i][0];
-            var handlers = this.msgHandlers[cmd];
-            if (handlers == null){
-                for (var h = 0; h < json.length; h++){
-                    handlers[h](args);
-                }
-            }
-        }
-    },
-
-    onError:function(e){
-        cc.log("NetWork error: "+e.message);
-    },
-
-    sendMessage:function(msgArray) {
-        if (this.websock != null && this.websock.readyState == WebSocket.OPEN){
-            var msg = JSON.stringify(msgArray);
-            this.websock.send(msg);
-        }
-        else {
-            cc.log("sendMessage: socket is closed");
-        }
-    },
-
-    registHandler:function(msg, handler){
-        if (this.msgHandlers[msg] == null){
-            this.msgHandlers[msg] = [];
-        }
-        if (msg != null && handler != null && msg != undefined && handler != undefined && handler instanceof Function){
-            var handlerArray = this.msgHandlers[msg];
-            handlerArray[handlerArray.length] = handler;
-        }
-    }
+var ZORDER = {
+	bgZOrder : 1,
+	entityZOrder : 10,
+	uiZOrder : 100,
 };
 
 
-function keyHandler(event) {
-    var code = event.keyCode;
-    if (!code && event.charCode)
-        code = event.charCode;
+var GameLayer = cc.Layer.extend({
+	sprite:null,
 
-    /*if (ws && ws.readyState == WebSocket.OPEN) {
-        ws.send(code);
-        event.preventDefault();
-    }
-    else {
-        cc.log("Connection is closed");
-    }*/
-}
+	ctor:function () {
+		this._super();
 
+		/*var size = cc.winSize;
+		var helloLabel = new cc.LabelTTF("what we don't know", "Arial", 14);
+		helloLabel.x = size.width / 2;
+		helloLabel.y = size.height / 2 + 200;
+		this.addChild(helloLabel, 5);
+		this.sprite = new cc.Sprite(res.Splah_png);
+		this.sprite.attr({
+			x: size.width / 2,
+			y: size.height / 2
+		});
+		this.addChild(this.sprite, 0);*/
 
-// status---------------------------------------------------------------------------
+		return true;
+	}
 
-var StateBase = cc.Class.extend({
-    scene:null,
-    layer:null,
-    ctor:function(scene){
-        this.scene = scene;
-        this.layer = new cc.Layer();
-        this.scene.addChild(this.layer);
-    },
-    onEnter:function(){
-        if(this.layer != null){
-            this.layer.setVisible(true);
-        }
-    },
-    onExit:function(){
-        if(this.layer != null){
-            this.layer.setVisible(false);
-        }
-    }
-
-});
-
-var StateAccount = StateBase.extend({
-
-    waitingForServer:false,
-
-    accountUI:null,
-    startBtn:null,
-    nameInput:null,
-    codeInput:null,
-
-
-    ctor:function(scene){
-        this._super(scene);
-        NetWork.registHandler(MsgType.scNewPlayer, this.onStart);
-    },
-
-    onEnter:function(){
-        cc.log("enter account");
-        this._super();
-        this.waitingForServer = false;
-        if (this.accountUI == null){
-            var uiroot = ccs.load('res/account.json').node;
-            this.layer.addChild(uiroot);
-            var rootsize = uiroot.getContentSize();
-            var x = cc.winSize.width * 0.5 - rootsize.width*0.5;
-            var y = cc.winSize.height * 0.5 - rootsize.height*0.5 + 100;
-            uiroot.setPosition(x,y);
-            this.accountUI = uiroot;
-
-            this.startBtn = ccui.helper.seekWidgetByName(uiroot, "start");
-            this.startBtn.addTouchEventListener(this.OnStartButtonTouch, this);
-            this.nameInput = ccui.helper.seekWidgetByName(uiroot, "input1");
-            this.codeInput = ccui.helper.seekWidgetByName(uiroot, "input2");
-        }
-    },
-
-    onExit:function(){
-        this._super();
-    },
-
-    onUpdate:function(){
-        this._super();
-    },
-
-    OnStartButtonTouch:function(sender, type) {
-        if (this.waitingForServer)
-            return;
-        switch (type) {
-            case ccui.Widget.TOUCH_ENDED:
-                this.askStart();
-                break;
-        }
-    },
-
-    askStart:function(){
-        cc.log("start");
-        var name = this.nameInput.getString();
-        var code = this.codeInput.getString();
-        this.waitingForServer = true;
-        NetWork.sendMessage([MsgType.csNewPlayer, name, code]);
-    },
-
-    onStart:function(args){
-        // to play and create the world.
-        this.waitingForServer = false;
-    }
-
-});
-
-var StatePlay = StateBase.extend({
-
-    ctor:function(scene){
-        this._super(scene);
-    },
-
-    onEnter:function(){
-        cc.log("enter play");
-        this._super();
-    },
-    onExit:function(){
-        this._super();
-    },
-    onUpdate:function(){
-        this._super();
-    }
-});
-
-var StateOver = StateBase.extend({
-
-    ctor:function(scene){
-        this._super(scene);
-    },
-
-    onEnter:function(){
-        cc.log("enter over");
-        this._super();
-    },
-    onExit:function(){
-        this._super();
-    },
-    onUpdate:function(){
-        this._super();
-    }
 });
 
 
 var GameScene = cc.Scene.extend({
-    ST_ACCOUNT:1,
-    ST_PLAY:2,
-    ST_OVER:3,
-    statusMap:{},
-    state:0,
+	ST_ACCOUNT:1,
+	ST_PLAY:2,
+	ST_OVER:3,
+	statusMap:{},
+	state:0,
 
-    onEnter:function () {
-        this._super();
-        NetWork.init();
-        this.statusMap[this.ST_ACCOUNT] =new StateAccount(this);
-        this.statusMap[this.ST_PLAY] =new StatePlay(this);
-        this.statusMap[this.ST_OVER] =new StateOver(this);
-        this.changeState(this.ST_ACCOUNT);
-    },
+	onEnter:function () {
+		this._super();
+		cc.eventManager.addListener({
+			event:cc.EventListener.KEYBOARD,
+			onKeyPressed:this.onKeyPressed,
+			onKeyReleased:this.onKeyReleased
+		},this);
+		this.statusMap[this.ST_ACCOUNT] = new StateAccount(this);
+		this.statusMap[this.ST_PLAY] = new StatePlay(this);
+		this.statusMap[this.ST_OVER] = new StateOver(this);
+		this.changeState(this.ST_ACCOUNT);
+		NetWork.init();
+	},
 
-    changeState:function(st){
-        if (st >= this.ST_ACCOUNT && st <= this.ST_OVER && st != this.state){
-            if (this.state != 0)
-                this.statusMap[this.state].onExit();
-            this.state = st;
-            this.statusMap[this.state].onEnter();
-        }
-    },
+	onExit: function () {
+		this._super();
+		cc.eventManager.removeListeners(cc.EventListener.KEYBOARD);
+	},
 
+	changeState:function(st){
+		if (st >= this.ST_ACCOUNT && st <= this.ST_OVER && st != this.state){
+			if (this.state != 0)
+				this.statusMap[this.state].onExit();
+			this.state = st;
+			this.statusMap[this.state].onEnter();
+		}
+	},
 
+	onKeyPressed:function (keyCode, event) {
+		if (this.state != this.ST_PLAY)
+			return;
+		var x = 0;var y = 0;
+		if(keyCode == 87 || keyCode == 38)y += 1;
+		if(keyCode == 83 || keyCode == 40)y += -1;
+		if(keyCode == 65 || keyCode == 37)x += -1;
+		if(keyCode == 68 || keyCode == 39)x += 1;
+		if(x != 0 || y != 0){NetWork.sendMessage([MsgType.csMove,x,y]);}
+	},
+
+	onKeyReleased:function (keyCode, event) {
+		//cc.log("keycode " + keyCode);
+		//if (this.state != this.ST_PLAY)
+		//	return;
+	},
 
 });
 

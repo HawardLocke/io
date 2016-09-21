@@ -1,17 +1,13 @@
-from collections import namedtuple
-
-Position = namedtuple("Position", "x y")
-
-Vector = namedtuple("Vector", "xdir ydir")
-
-Char = namedtuple("Char", "char color")
-
-Draw = namedtuple("Draw",  "x y char color")
 
 
 class MsgType:
 	# c->s
-	csNewPlayer = "1001"
-	csMove = "1002"
+	csNewPlayer = 1001
+	csJoin = 1002
+	csMove = 1003
 	# s->c
-	scNewPlayer = "2001"
+	scError = 2000
+	scNewPlayer = 2001
+	scJoined = 2002
+	scWorldInfo = 2003
+	scDeletePlayer = 2004

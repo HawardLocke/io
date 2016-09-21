@@ -1,10 +1,12 @@
 var res = {
-    ui_plist : "res/ioui.plist",
-    ui_png : "res/ioui.png",
-    ui_account : "res/account.json",
+    arial : "res/Arial.ttf",
+	ui_plist : "res/ioui.plist",
+	ui_png : "res/ioui.png",
+	ui_account : "res/account.json",
+	dot_png : "res/dot.png",
 };
 
 var g_resources = [];
 for (var i in res) {
-    g_resources.push(res[i]);
+	g_resources.push(res[i]);
 }
