@@ -29,11 +29,14 @@ var GameLayer = cc.Layer.extend({
 
 });
 
-
-var GameScene = cc.Scene.extend({
+var StateType = {
 	ST_ACCOUNT:1,
 	ST_PLAY:2,
-	ST_OVER:3,
+	ST_OVER:3
+};
+
+var GameScene = cc.Scene.extend({
+
 	statusMap:{},
 	state:0,
 
@@ -44,10 +47,10 @@ var GameScene = cc.Scene.extend({
 			onKeyPressed:this.onKeyPressed,
 			onKeyReleased:this.onKeyReleased
 		},this);
-		this.statusMap[this.ST_ACCOUNT] = new StateAccount(this);
-		this.statusMap[this.ST_PLAY] = new StatePlay(this);
-		this.statusMap[this.ST_OVER] = new StateOver(this);
-		this.changeState(this.ST_ACCOUNT);
+		this.statusMap[StateType.ST_ACCOUNT] = new StateAccount(this);
+		this.statusMap[StateType.ST_PLAY] = new StatePlay(this);
+		this.statusMap[StateType.ST_OVER] = new StateOver(this);
+		this.changeState(StateType.ST_ACCOUNT);
 		NetWork.init();
 	},
 
@@ -57,7 +60,7 @@ var GameScene = cc.Scene.extend({
 	},
 
 	changeState:function(st){
-		if (st >= this.ST_ACCOUNT && st <= this.ST_OVER && st != this.state){
+		if (st >= StateType.ST_ACCOUNT && st <= StateType.ST_OVER && st != this.state){
 			if (this.state != 0)
 				this.statusMap[this.state].onExit();
 			this.state = st;
@@ -77,9 +80,9 @@ var GameScene = cc.Scene.extend({
 	},
 
 	onKeyReleased:function (keyCode, event) {
-		//cc.log("keycode " + keyCode);
-		//if (this.state != this.ST_PLAY)
-		//	return;
+		if (this.state != this.ST_PLAY)
+			return;
+		NetWork.sendMessage([MsgType.csMove,0,0]);
 	},
 
 });

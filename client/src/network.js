@@ -13,7 +13,7 @@ var NetWork = {
 	},
 
 	onOpen:function(e){
-		cc.log("NetWork open: "+e.message);
+		cc.log("NetWork open success");
 	},
 
 	onMessage:function(e) {
@@ -24,12 +24,10 @@ var NetWork = {
 		for (var i = 0; i < json.length; i++) {
 			var args = json[i];
 			var cmd = json[i][0];
-			cc.log("cmd is "+cmd)
-			var handlers = this.msgHandlers[cmd];
-			if (handlers == null){
-				for (var h = 0; h < json.length; h++){
-					handlers[h](args);
-				}
+			cc.log("cmd is "+cmd);
+			var handlers = NetWork.msgHandlers[cmd];
+			if (handlers != undefined){
+				handlers(args);
 			}
 		}
 	},
@@ -49,12 +47,8 @@ var NetWork = {
 	},
 
 	registHandler:function(msg, handler){
-		if (this.msgHandlers[msg] == null){
-			this.msgHandlers[msg] = [];
-		}
-		if (msg != null && handler != null && msg != undefined && handler != undefined && handler instanceof Function){
-			var handlerArray = this.msgHandlers[msg];
-			handlerArray[handlerArray.length] = handler;
+		if (typeof msg === 'number' && handler instanceof Function){
+			this.msgHandlers[msg] = handler;
 		}
 	}
 };
@@ -70,6 +64,7 @@ var MsgType = {
 	scNewPlayer:2001,
 	scJoined:2002,
 	scWorldInfo:2003,
-	scDeletePlayer:2004
+	scDeletePlayer:2004,
+	scTransform:2005
 };
 

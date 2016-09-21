@@ -6,6 +6,7 @@ from aiohttp import web
 import settings
 from game import Game
 from msghandler import MsgHandler
+from datatypes import MsgType
 
 
 async def handle(request):
@@ -22,9 +23,12 @@ async def wshandler(request):
 	while True:
 		msg = await ws.receive()
 		if msg.tp == web.MsgType.text:
-			print("recv msg %s" % msg.data)
+			# print("recv msg %s" % msg.data)
 			data = json.loads(msg.data)
-			msghandler.on_msg(player, ws, data)
+			if player is None and data[0] == MsgType.csNewPlayer:
+				player = MsgHandler.game.new_player(data[1], data[2], ws)
+			else:
+				msghandler.on_msg(player, ws, data)
 		elif msg.tp == web.MsgType.close:
 			break
 
@@ -35,8 +39,9 @@ async def wshandler(request):
 	return ws
 
 async def game_loop(game):
-	print("start loop")
+
 	tick = 1./settings.GAME_SPEED
+	print("start loop, tick is %f second." % tick)
 	while 1:
 		game.update_world(tick)
 		await asyncio.sleep(1./settings.GAME_SPEED)

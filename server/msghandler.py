@@ -32,7 +32,7 @@ class MsgHandler:
 def on_newplayer(player, ws, args):
 	name = args[1]
 	seed = args[2]
-	print("on new player " + name + " " + seed)
+	# print("on new player " + name + " " + seed)
 	MsgHandler.game.new_player(name, seed, ws)
 
 
@@ -43,4 +43,4 @@ def on_join(player, ws, args):
 def on_playermove(player, ws, args):
 	x = args[1]
 	y = args[2]
-	player.keypress(x)
+	player.on_move(x, y)

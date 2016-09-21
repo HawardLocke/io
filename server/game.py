@@ -31,6 +31,8 @@ class Game:
 		player = Player(guid, name, tp, ws)
 		self._players[guid] = player
 
+		print('player count %d' % self.count_alive_players())
+
 		return player
 
 	def join(self, player, ws):
@@ -41,8 +43,8 @@ class Game:
 			return
 		x, y = self._get_spawn_position()
 		player.join(x, y)
-
-		self.send_all(MsgType.scJoined, player.guid, player.name, player.tp)
+		self.send_all(MsgType.scJoined, player.guid, player.name, player.tp, x, y)
+		print('player %s joins.' % player.name)
 
 	def player_disconnected(self, player):
 		player.ws = None
@@ -50,6 +52,7 @@ class Game:
 		del self._players[player.guid]
 		del player
 		self.send_all(MsgType.scDeletePlayer, guid)
+		print('player count %d' % self.count_alive_players())
 
 	def count_alive_players(self):
 		return sum([int(p.alive) for p in self._players.values()])

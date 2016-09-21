@@ -3,8 +3,11 @@
 var Game = {
 
 	gameScene:null,
+	worldSizeRatio:100,
 
 	playerList:{},
+	myPlayerGuid:0,
+	myPlayerInst:null,
 
 	ctor:function(){
 
@@ -21,13 +24,16 @@ var Game = {
 
 	},
 
-	addPlayer:function(dataArray){
-		var id = dataArray[0];
-		var name = dataArray[1];
-		var type = dataArray[2];
+	addPlayer:function(id, name, tp, x, y){
 		if(this.playerList[id] == undefined){
-			this.playerList[id] = new Player(id, name, type);
+			var player = new Player(id, name, tp);
+			this.playerList[id] = player;
+			player.setPosition(x, y);
+			player.onCreate();
+			cc.log('add player: ' + name);
+			return player;
 		}
+		return null;
 	},
 
 	removePlayer:function(id){
@@ -36,6 +42,10 @@ var Game = {
 			this.playerList[id] = undefined;
 			player.onDestroy();
 		}
+	},
+
+	getPlayer:function(id){
+		return this.playerList[id];
 	},
 
 	updateEntity:function(dataArray){
