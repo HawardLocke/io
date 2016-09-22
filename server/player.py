@@ -8,7 +8,7 @@ from datatypes import MsgType
 
 class Player:
 	# Friction accleration
-	acc_friction = 0.5
+	acc_friction = 0.8
 	# Control accleration
 	acc_control = 1
 

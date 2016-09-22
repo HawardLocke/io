@@ -26,7 +26,15 @@ var MsgHandler = {
 		var playerInst = Game.addPlayer(guid, name, tp, x, y);
 		if (Game.myPlayerGuid === guid){
 			Game.myPlayerInst = playerInst;
+			MsgHandler.lookAtPlayer(playerInst);
 		}
+	},
+
+	lookAtPlayer:function(playerInst){
+		var wl = gameScene.getWorldLayer();
+		var dx = cc.winSize.width * 0.5 - playerInst.getPositionX();
+		var dy = cc.winSize.height * 0.5 - playerInst.getPositionY();
+		wl.setPosition(dx, dy);
 	},
 
 	onPlayerTransform:function(args){
@@ -37,6 +45,9 @@ var MsgHandler = {
 		var playerInst = Game.getPlayer(guid);
 		if (playerInst instanceof Player){
 			playerInst.setPosition(x, y);
+			if (guid == Game.myPlayerGuid){
+				MsgHandler.lookAtPlayer(playerInst);
+			}
 		}
 	}
 

@@ -4,6 +4,7 @@ var res = {
 	ui_png : "res/ioui.png",
 	ui_account : "res/account.json",
 	dot_png : "res/dot.png",
+	tile_bg : "res/tile.jpg"
 };
 
 var g_resources = [];

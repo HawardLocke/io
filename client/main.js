@@ -52,30 +52,8 @@
  *
  */
 
-/*var GameLayer = cc.Layer.extend({
-	ctor:function () {
-		this._super();
-		var size = cc.winSize;
-		 var helloLabel = new cc.LabelTTF("what we don't know", "Arial", 14);
-		 helloLabel.x = size.width / 2;
-		 helloLabel.y = size.height / 2 + 200;
-		 this.addChild(helloLabel, 5);
-		 this.sprite = new cc.Sprite(res.Splah_png);
-		 this.sprite.attr({
-		 x: size.width / 2,
-		 y: size.height / 2
-		 });
-		 this.addChild(this.sprite, 0);
-		return true;
-	}
-});*/
 
 
-var ZORDER = {
-	bgZOrder : 1,
-	entityZOrder : 10,
-	uiZOrder : 100,
-};
 
 var gameScene = null;
 

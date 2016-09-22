@@ -13,7 +13,7 @@ var BaseObj = cc.Class.extend({
 	ctor:function(){
 		this.avatarRoot = new cc.Node;
 		this.avatarRoot.setVisible(false);
-		gameScene.addChild(this.avatarRoot, ZORDER.entityZOrder);
+		gameScene.getWorldLayer().addChild(this.avatarRoot, ZORDER.entityZOrder);
 		this.avatarBody = new cc.Node;
 		this.avatarRoot.addChild(this.avatarBody, 0);
 		this.avatarEffect = new cc.Node;
@@ -24,6 +24,9 @@ var BaseObj = cc.Class.extend({
 		this.x = x;this.y = y;
 		this.avatarRoot.setPosition(x,y);
 	},
+
+	getPositionX:function(){return this.x;},
+	getPositionY:function(){return this.y;},
 
 	onCreate:function(){
 		this.avatarRoot.setVisible(true);

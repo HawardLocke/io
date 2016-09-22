@@ -66,6 +66,8 @@ var StatePlay = StateBase.extend({
 	onEnter:function(){
 		this._super();
 
+		gameScene.getWorldLayer().setVisible(true);
+
 		var size = cc.winSize;
 		var helloLabel = new cc.LabelTTF("what we don't know", "Arial", 14);
 		helloLabel.x = size.width / 2;
@@ -73,6 +75,10 @@ var StatePlay = StateBase.extend({
 		this.node.addChild(helloLabel, 5);
 
 		MsgSender.join();
+	},
+
+	onExit:function(){
+		gameScene.getWorldLayer().setVisible(false);
 	}
 
 });
