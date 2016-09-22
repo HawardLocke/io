@@ -24,7 +24,6 @@ var NetWork = {
 		for (var i = 0; i < json.length; i++) {
 			var args = json[i];
 			var cmd = json[i][0];
-			cc.log("cmd is "+cmd);
 			var handlers = NetWork.msgHandlers[cmd];
 			if (handlers != undefined){
 				handlers(args);

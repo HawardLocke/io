@@ -12,7 +12,7 @@ var Game = {
 	state:0,
 
 	gameScene:null,
-	worldSizeRatio:100,
+	worldSizeRatio:100,// 1 in server means 100 in client.
 
 	playerList:{},
 	myPlayerGuid:0,

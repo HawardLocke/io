@@ -105,6 +105,7 @@ cc.game.onStart = function(){
 		gameScene = new GameScene();
 		cc.director.runScene(gameScene);
 		Game.init();
+		TouchControl.init();
 		MsgHandler.init();
 		MsgSender.init();
 	}, this);

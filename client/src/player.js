@@ -7,6 +7,8 @@ var BaseObj = cc.Class.extend({
 	avatarEffect:null,
 	x:0,
 	y:0,
+	vx:0,
+	vy:0,
 
 	ctor:function(){
 		this.avatarRoot = new cc.Node;
@@ -56,6 +58,8 @@ var Player = BaseObj.extend({
 		this.type = type;
 		var sprite = new cc.Sprite(res.dot_png);
 		this.avatarBody.addChild(sprite, 0);
+		var nameLabel = new cc.LabelTTF(this.name, "Arial", 14);
+		this.avatarBody.addChild(nameLabel, 5);
 	},
 
 	onCreate:function(){
