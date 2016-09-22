@@ -7,6 +7,10 @@ from datatypes import MsgType
 
 
 class Player:
+	# Friction accleration
+	acc_friction = 0.5
+	# Control accleration
+	acc_control = 1
 
 	def __init__(self, guid, name, tp, ws):
 		self.guid = guid
@@ -20,6 +24,9 @@ class Player:
 		self.y = 0
 		self.vx = 0
 		self.vy = 0
+		self.forcex = 0
+		self.forcey = 0
+		self.max_speed = 1
 		self.needSyncPos = False
 
 	def join(self, posx, posy):
@@ -30,19 +37,56 @@ class Player:
 
 	def update(self, tick):
 		if self.joined:
-			if self.vx != 0:
-				self.x += self.vx * tick
-			if self.vy != 0:
-				self.y += self.vy * tick
-		if self.needSyncPos:
-			self.send_to_self(MsgType.scTransform, self.guid, self.x, self.y)
+			self.update_position(tick)
 
-	def on_move(self, x, y):
+			if self.needSyncPos:
+				self.send_to_self(MsgType.scTransform, self.guid, self.x, self.y)
+
+	def update_position(self, tick):
+		if self.forcex != 0:
+			self.vx += self.forcex * Player.acc_control * tick
+			if abs(self.vx) > self.max_speed:
+				if self.vx > 0:
+					self.vx = self.max_speed
+				else:
+					self.vx = -self.max_speed
+		if self.forcey != 0:
+			self.vy += self.forcey * Player.acc_control * tick
+			if abs(self.vy) > self.max_speed:
+				if self.vy > 0:
+					self.vy = self.max_speed
+				else:
+					self.vy = -self.max_speed
+
+		if self.vx > 0:
+			self.vx -= Player.acc_friction * tick
+			if self.vx <= 0:
+				self.vx = 0
+		if self.vx < 0:
+			self.vx += Player.acc_friction * tick
+			if self.vx >= 0:
+				self.vx = 0
+		if self.vy > 0:
+			self.vy -= Player.acc_friction * tick
+			if self.vy <= 0:
+				self.vy = 0
+		if self.vy < 0:
+			self.vy += Player.acc_friction * tick
+			if self.vy >= 0:
+				self.vy = 0
+
+		if self.vx != 0:
+			self.x += self.vx * tick
+		if self.vy != 0:
+			self.y += self.vy * tick
+
+		self.needSyncPos = self.vx != 0 or self.vy != 0
+
+	def on_move(self, dirx, diry):
 		if not self.alive:
 			return
-		self.vx = x
-		self.vy = y
-		self.needSyncPos = x != 0 or y != 0
+		self.forcex = dirx
+		self.forcey = diry
 
 	def setposition(self, x, y):
 		self.x = x

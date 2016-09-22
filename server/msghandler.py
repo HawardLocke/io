@@ -41,6 +41,6 @@ def on_join(player, ws, args):
 
 
 def on_playermove(player, ws, args):
-	x = args[1]
-	y = args[2]
-	player.on_move(x, y)
+	dir_x = args[1]
+	dir_y = args[2]
+	player.on_move(dir_x, dir_y)
