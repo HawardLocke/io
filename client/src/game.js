@@ -12,9 +12,12 @@ var Game = {
 	state:0,
 
 	gameScene:null,
-	worldSizeRatio:100,// 1 in server means 100 in client.
+
+	worldWidth:0,
+	worldHeight:0,
 
 	playerList:{},
+	deletePlayerList:{},
 	myPlayerGuid:0,
 	myPlayerInst:null,
 
@@ -55,14 +58,18 @@ var Game = {
 			cc.log('add player: ' + name);
 			return player;
 		}
+		else{
+			var player = this.playerList[id];
+			player.setPosition(x, y);
+		}
 		return null;
 	},
 
 	removePlayer:function(id){
 		var player = this.playerList[id];
 		if (player instanceof Player){
-			this.playerList[id] = undefined;
-			player.onDestroy();
+			this.deletePlayerList[id] = player;
+			delete this.playerList[id];
 		}
 	},
 
@@ -70,8 +77,26 @@ var Game = {
 		return this.playerList[id];
 	},
 
-	updateEntity:function(dataArray){
+	updateWorld:function(dt){
+		if(this.state === StateType.ST_PLAY){
+			for(var id in this.playerList){
+				this.playerList[id].onUpdate(dt);
+			}
+		}
+		for(var id in this.deletePlayerList){
+			this.deletePlayerList[id].onDestroy();
+			delete this.deletePlayerList[id];
+		}
+		if(this.myPlayerInst != null) {
+			Game.lookAtPlayer(this.myPlayerInst);
+		}
+	},
 
+	lookAtPlayer:function(playerInst){
+		var wl = gameScene.getWorldLayer();
+		var dx = cc.winSize.width * 0.5 - playerInst.getPositionX()*Setting.worldSizeRatio;
+		var dy = cc.winSize.height * 0.5 - playerInst.getPositionY()*Setting.worldSizeRatio;
+		wl.setPosition(dx, dy);
 	}
 
 };

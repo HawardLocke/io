@@ -67,6 +67,7 @@ var GameScene = cc.Scene.extend({
 
 	onEnter:function () {
 		this._super();
+		this.scheduleUpdate();
 		cc.eventManager.addListener({
 			event:cc.EventListener.KEYBOARD,
 			onKeyPressed:this.onKeyPressed,
@@ -78,6 +79,7 @@ var GameScene = cc.Scene.extend({
 	},
 	onExit: function () {
 		this._super();
+		this.unscheduleUpdate();
 		cc.eventManager.removeListeners(cc.EventListener.KEYBOARD);
 	},
 	onKeyPressed:function (keyCode, event) {
@@ -88,5 +90,9 @@ var GameScene = cc.Scene.extend({
 	},
 	getWorldLayer:function(){
 		return this.worldLayer;
+	},
+	update:function(dt){
+		this._super(dt);
+		Game.updateWorld(dt);
 	}
 });

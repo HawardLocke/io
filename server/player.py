@@ -1,9 +1,9 @@
 
-from random import randint, choice
 import json
 
 import settings
 from datatypes import MsgType
+from msgsender import MsgSender
 
 
 class Player:
@@ -18,7 +18,7 @@ class Player:
 		self.tp = tp
 		self.color = None
 		self.ws = ws
-		self.alive = False
+		self.alive = True
 		self.joined = False
 		self.x = 0
 		self.y = 0
@@ -40,7 +40,8 @@ class Player:
 			self.update_position(tick)
 
 			if self.needSyncPos:
-				self.send_to_self(MsgType.scTransform, self.guid, self.x, self.y)
+				self.broadcast_position()
+		pass
 
 	def update_position(self, tick):
 		if self.forcex != 0:
@@ -80,6 +81,11 @@ class Player:
 		if self.vy != 0:
 			self.y += self.vy * tick
 
+		self.x = min(self.x, settings.WORLD_WIDTH)
+		self.x = max(self.x, 0)
+		self.y = min(self.y, settings.WORLD_HEIGHT)
+		self.y = max(self.y, 0)
+
 		self.needSyncPos = self.vx != 0 or self.vy != 0
 
 	def on_move(self, dirx, diry):
@@ -92,6 +98,12 @@ class Player:
 		self.x = x
 		self.y = y
 
-	def send_to_self(self, *args):
-		msg = json.dumps([args])
-		self.ws.send_str(msg)
+	def get_basic_info(self):
+		return json.dumps([MsgType.scPlayerInfo, self.guid, self.name, self.tp, self.x, self.y])
+
+	def get_transform_info(self):
+		return json.dumps([MsgType.scTransform, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey])
+
+	def broadcast_position(self):
+		MsgSender.send_to_nearby(MsgType.scTransform, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey)
+		pass

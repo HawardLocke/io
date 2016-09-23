@@ -12,3 +12,5 @@ class MsgType:
 	scWorldInfo = 2003
 	scDeletePlayer = 2004
 	scTransform = 2005
+	scPlayerInfo = 2006
+

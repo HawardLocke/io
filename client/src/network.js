@@ -64,6 +64,7 @@ var MsgType = {
 	scJoined:2002,
 	scWorldInfo:2003,
 	scDeletePlayer:2004,
-	scTransform:2005
+	scTransform:2005,
+	scPlayerInfo:2006
 };
 

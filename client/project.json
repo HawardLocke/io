@@ -1,4 +1,4 @@
-{
+﻿{
 	"project_type": "javascript",
 
 	"debugMode" : 1,
@@ -12,11 +12,13 @@
 	"modules" : ["cocos2d","extensions"],
 
 	"jsList" : [
+		"src/settings.js",
 		"src/resource.js",
         "src/scene.js",
         "src/game.js",
 		"src/network.js",
 		"src/status.js",
+		"src/baseobj.js",
 		"src/player.js",
 		"src/touchcontrol.js",
         "src/msghandler.js",

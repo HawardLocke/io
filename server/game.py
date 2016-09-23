@@ -13,6 +13,9 @@ class Game:
 		self._players = {}
 		self._top_scores = []
 
+	def get_players(self):
+		return self._players
+
 	def create_world(self):
 		pass
 
@@ -25,7 +28,7 @@ class Game:
 		guid = self._last_id
 
 		self.send_personal(ws, MsgType.scNewPlayer, name, guid)
-		# self.send_personal(ws, MsgType.scWorldInfo, self._world)
+		self.send_personal(ws, MsgType.scWorldInfo, settings.WORLD_WIDTH, settings.WORLD_HEIGHT)
 
 		tp = randint(1, 9)
 		player = Player(guid, name, tp, ws)
@@ -36,7 +39,7 @@ class Game:
 		return player
 
 	def join(self, player, ws):
-		if player.alive:
+		if player.joined:
 			return
 		if self.count_alive_players() == settings.MAX_PLAYERS:
 			self.send_personal(ws, MsgType.scError, "Too many players !")
@@ -44,6 +47,7 @@ class Game:
 		x, y = self._get_spawn_position()
 		player.join(x, y)
 		self.send_all(MsgType.scJoined, player.guid, player.name, player.tp, x, y)
+		self.send_nearby_players_info_to(player)
 		print('player %s joins.' % player.name)
 
 	def player_disconnected(self, player):
@@ -58,8 +62,8 @@ class Game:
 		return sum([int(p.alive) for p in self._players.values()])
 
 	def _get_spawn_position(self):
-		x = 1
-		y = 1
+		x = randint(1, 4)
+		y = randint(1, 4)
 		return x, y
 
 	def read_top_scores(self):
@@ -78,6 +82,13 @@ class Game:
 		f = open("top_scores.txt", "w")
 		f.write(json.dumps(self._top_scores))
 		f.close()
+
+	def send_nearby_players_info_to(self, player):
+		for _pl in self._players.values():
+			if _pl.guid == player.guid:
+				continue
+			player.ws.send_str(_pl.get_basic_info())
+			player.ws.send_str(_pl.get_transform_info())
 
 	def send_personal(self, ws, *args):
 		msg = json.dumps([args])

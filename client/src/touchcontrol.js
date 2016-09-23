@@ -41,6 +41,8 @@ var TouchControl = {
 			y += this.keyStatus['up'] ? 1 : -1;
 			y += this.keyStatus['down'] ? -1 : 1;
 			MsgSender.move(x,y);
+
+			Game.myPlayerInst.setForce(x, y);
 		}
 	},
 
@@ -72,6 +74,8 @@ var TouchControl = {
 			y += this.keyStatus['up'] ? 1 : -1;
 			y += this.keyStatus['down'] ? -1 : 1;
 			MsgSender.move(x,y);
+
+			Game.myPlayerInst.setForce(x, y);
 		}
 	}
 };

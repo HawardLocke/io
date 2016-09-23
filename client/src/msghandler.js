@@ -3,9 +3,17 @@
 var MsgHandler = {
 
 	init:function(){
+		NetWork.registHandler(MsgType.scError, this.onError);
 		NetWork.registHandler(MsgType.scNewPlayer, this.onStart);
 		NetWork.registHandler(MsgType.scJoined, this.onPlayerJoin);
+		NetWork.registHandler(MsgType.scWorldInfo, this.onWorldInfo);
+		NetWork.registHandler(MsgType.scDeletePlayer, this.onPlayerDeleted);
 		NetWork.registHandler(MsgType.scTransform, this.onPlayerTransform);
+		NetWork.registHandler(MsgType.scPlayerInfo, this.onPlayerInfo);
+	},
+
+	onError:function(args){
+		cc.log('Error: ' + args[1]);
 	},
 
 	onStart:function(args){
@@ -21,33 +29,53 @@ var MsgHandler = {
 		var guid = args[1];
 		var name = args[2];
 		var tp = args[3];
-		var x = args[4]*Game.worldSizeRatio;
-		var y = args[5]*Game.worldSizeRatio;
+		var x = args[4];
+		var y = args[5];
 		var playerInst = Game.addPlayer(guid, name, tp, x, y);
 		if (Game.myPlayerGuid === guid){
 			Game.myPlayerInst = playerInst;
-			MsgHandler.lookAtPlayer(playerInst);
+			//Game.lookAtPlayer(playerInst);
 		}
 	},
 
-	lookAtPlayer:function(playerInst){
-		var wl = gameScene.getWorldLayer();
-		var dx = cc.winSize.width * 0.5 - playerInst.getPositionX();
-		var dy = cc.winSize.height * 0.5 - playerInst.getPositionY();
-		wl.setPosition(dx, dy);
+	onWorldInfo:function(args){
+		Game.worldWidth = args[1];
+		Game.worldHeight = args[2];
+	},
+
+	onPlayerDeleted:function(args){
+		Game.removePlayer(args[1]);
 	},
 
 	onPlayerTransform:function(args){
 		//cc.log("on trans: " + args);
 		var guid = args[1];
-		var x = args[2]*Game.worldSizeRatio;
-		var y = args[3]*Game.worldSizeRatio;
+		var x = args[2];
+		var y = args[3];
+		var vx = args[4];
+		var vy = args[5];
+		var fx = args[6];
+		var fy = args[7];
+
 		var playerInst = Game.getPlayer(guid);
 		if (playerInst instanceof Player){
 			playerInst.setPosition(x, y);
+			playerInst.setVelocity(vx, vy);
+			playerInst.setForce(fx, fy);
 			if (guid == Game.myPlayerGuid){
-				MsgHandler.lookAtPlayer(playerInst);
+				//Game.lookAtPlayer(playerInst);
 			}
+		}
+	},
+
+	onPlayerInfo:function(args){
+		var guid = args[1];
+		var name = args[2];
+		var tp = args[3];
+		var x = args[4];
+		var y = args[5];
+		if (guid != Game.myPlayerGuid) {
+			Game.addPlayer(guid, name, tp, x, y);
 		}
 	}
 

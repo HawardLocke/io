@@ -1,6 +1,9 @@
 
-GAME_SPEED = 30  # fps, the more the faster
+GAME_SPEED = 10  # fps
 
 MAX_PLAYERS = 10
 MAX_TOP_SCORES = 15
+
+WORLD_WIDTH = 20
+WORLD_HEIGHT = 20
 

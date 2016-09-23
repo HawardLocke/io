@@ -1,52 +1,5 @@
 
 
-var BaseObj = cc.Class.extend({
-
-	avatarRoot:null,
-	avatarBody:null,
-	avatarEffect:null,
-	x:0,
-	y:0,
-	vx:0,
-	vy:0,
-
-	ctor:function(){
-		this.avatarRoot = new cc.Node;
-		this.avatarRoot.setVisible(false);
-		gameScene.getWorldLayer().addChild(this.avatarRoot, ZORDER.entityZOrder);
-		this.avatarBody = new cc.Node;
-		this.avatarRoot.addChild(this.avatarBody, 0);
-		this.avatarEffect = new cc.Node;
-		this.avatarRoot.addChild(this.avatarEffect, 1);
-	},
-
-	setPosition:function(x,y){
-		this.x = x;this.y = y;
-		this.avatarRoot.setPosition(x,y);
-	},
-
-	getPositionX:function(){return this.x;},
-	getPositionY:function(){return this.y;},
-
-	onCreate:function(){
-		this.avatarRoot.setVisible(true);
-	},
-
-	onDestroy:function(){
-
-	},
-
-	onMove:function(){
-
-	},
-
-	onBreak:function(){
-
-	},
-
-
-});
-
 
 var Player = BaseObj.extend({
 
@@ -73,12 +26,8 @@ var Player = BaseObj.extend({
 		this._super();
 	},
 
-	onMove:function(){
-		this._super();
-	},
-
-	onBreak:function(){
-		this._super();
-	},
+	onUpdate:function(dt){
+		this._super(dt);
+	}
 
 });

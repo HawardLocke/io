@@ -2,10 +2,12 @@ import os
 import asyncio
 import json
 from aiohttp import web
+import time
 
 import settings
 from game import Game
 from msghandler import MsgHandler
+from msgsender import MsgSender
 from datatypes import MsgType
 
 
@@ -39,13 +41,18 @@ async def wshandler(request):
 	return ws
 
 async def game_loop(game):
-
 	tick = 1./settings.GAME_SPEED
-	print("start loop, tick is %f second." % tick)
+	lasttick = time.clock()
+	print("start looping, fps is %d." % settings.GAME_SPEED)
 	while 1:
-		game.update_world(tick)
-		await asyncio.sleep(1./settings.GAME_SPEED)
-	print("end loop")
+		curtick = time.clock()
+		dt = curtick - lasttick
+		if dt < tick:
+			await asyncio.sleep(tick - dt)
+			continue
+		game.update_world(dt)
+		lasttick = curtick
+	print("end looping")
 
 event_loop = asyncio.get_event_loop()
 event_loop.set_debug(True)
@@ -56,6 +63,7 @@ game = Game()
 app["game"] = game
 app["msghandler"] = MsgHandler(game)
 app["msghandler"].regist_all()
+app["msgsender"] = MsgSender(game)
 
 app.router.add_route('GET', '/connect', wshandler)
 # app.router.add_route('GET', '/{name}', handle)
