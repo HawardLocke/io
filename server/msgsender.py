@@ -32,6 +32,6 @@ class MsgSender:
 	@staticmethod
 	def send_newplayer(player, name, guid):
 		fmt = 'H%ds%ds' % len(name)
-		data = struct.pack(fmt, MsgType.scNewPlayer, error_desc)
+		data = struct.pack(fmt, MsgType.scNewPlayer, name)
 		player.ws.send_bytes(data)
 

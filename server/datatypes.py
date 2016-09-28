@@ -12,7 +12,7 @@ class MsgType:
 	scJoined = 2002
 	scWorldInfo = 2003
 	scDeletePlayer = 2004
-	scTransform = 2005
+	scMove = 2005
 	scPlayerInfo = 2006
 	scPing = 2007
 

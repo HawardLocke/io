@@ -14,10 +14,11 @@ var MsgSender = {
 		NetWork.sendMessage([MsgType.csJoin]);
 	},
 
-	move:function(x, y){
+	move:function(x, y, posx, posy, vx, vy){
 		var localDate = new Date();
-		var times = localDate.getTime();
-		NetWork.sendMessage([MsgType.csMove,times,x,y]);
+		var curTime = localDate.getTime();
+		var timeStamp = Game.serverTime + (curTime - Game.pingTime);// 'real' time now
+		NetWork.sendMessage([MsgType.csMove,timeStamp,x,y,posx,posy,vx,vy]);
 	},
 
 	ping:function(pingCount, clientTime){

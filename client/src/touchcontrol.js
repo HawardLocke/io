@@ -40,7 +40,11 @@ var TouchControl = {
 			x += this.keyStatus['right'] ? 1 : -1;
 			y += this.keyStatus['up'] ? 1 : -1;
 			y += this.keyStatus['down'] ? -1 : 1;
-			MsgSender.move(x,y);
+			var posx = Game.myPlayerInst.getPositionX();
+			var posy = Game.myPlayerInst.getPositionY();
+			var vx = Game.myPlayerInst.getVelocityX();
+			var vy = Game.myPlayerInst.getVelocityY();
+			MsgSender.move(x,y,posx,posy,vx,vy);
 
 			Game.myPlayerInst.setForce(x, y);
 		}
@@ -73,7 +77,11 @@ var TouchControl = {
 			x += this.keyStatus['right'] ? 1 : -1;
 			y += this.keyStatus['up'] ? 1 : -1;
 			y += this.keyStatus['down'] ? -1 : 1;
-			MsgSender.move(x,y);
+			var posx = Game.myPlayerInst.getPositionX();
+			var posy = Game.myPlayerInst.getPositionY();
+			var vx = Game.myPlayerInst.getVelocityX();
+			var vy = Game.myPlayerInst.getVelocityY();
+			MsgSender.move(x,y,posx,posy,vx,vy);
 
 			Game.myPlayerInst.setForce(x, y);
 		}

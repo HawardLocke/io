@@ -37,6 +37,9 @@ var BaseObj = cc.Class.extend({
 		this.vy = y;
 	},
 
+	getVelocityX:function(){return this.vx;},
+	getVelocityY:function(){return this.vy;},
+
 	setForce:function(fx, fy){
 		this.forcex = fx;
 		this.forcey = fy;

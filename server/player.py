@@ -57,10 +57,10 @@ class Player:
 				self.__ping_time = curtime
 				self.__ping_count += 1
 				self.__can_ping = False
-				self.send_ping(self.__ping_count)
+				self.send_ping(self.__ping_count, self.__ping_time)
 		pass
 
-	''''def update_position(self, tick):
+	"""def update_position(self, tick):
 		if self.forcex != 0:
 			self.vx += self.forcex * Player.acc_control * tick
 			if abs(self.vx) > self.max_speed:
@@ -103,13 +103,14 @@ class Player:
 		self.y = min(self.y, settings.WORLD_HEIGHT)
 		self.y = max(self.y, 0)
 
-		self.needSyncPos = self.vx != 0 or self.vy != 0'''
+		self.needSyncPos = self.vx != 0 or self.vy != 0"""
 
-	def on_move(self, dirx, diry):
+	def on_move(self, dirx, diry, timestamp):
 		if not self.alive:
 			return
 		self.forcex = dirx
 		self.forcey = diry
+		self.broadcast_movestate(timestamp)
 
 	def on_ping(self, ping_count, client_time):
 		# print('on ping')
@@ -123,17 +124,25 @@ class Player:
 		self.x = x
 		self.y = y
 
+	def setvelocity(self, x, y):
+		self.vx = x
+		self.vy = y
+
 	def get_basic_info(self):
 		return json.dumps([MsgType.scPlayerInfo, self.guid, self.name, self.tp, self.x, self.y])
 
 	def get_transform_info(self):
-		return json.dumps([MsgType.scTransform, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey])
+		return json.dumps([MsgType.scMove, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey, time.time()*1000])
 
-	def send_ping(self, pingcount):
-		MsgSender.send_to(self, MsgType.scPing, pingcount, self.network_delay_time)
+	def send_ping(self, pingcount, pingtime):
+		MsgSender.send_to(self, MsgType.scPing, pingcount, self.network_delay_time, pingtime)
 		# print('send ping: %d' % pingcount)
 		pass
 
-	def broadcast_position(self):
-		MsgSender.send_to_nearby(MsgType.scTransform, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey)
+	def broadcast_movestate(self, timestamp):
+		MsgSender.send_to_nearby(MsgType.scMove, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey, timestamp)
 		pass
+
+	'''def broadcast_position(self):
+		MsgSender.send_to_nearby(MsgType.scTransform, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey)
+		pass'''

@@ -23,6 +23,7 @@ var Game = {
 
 	serverTime:0,
 	networkDelayTime:0,
+	pingTime:0,
 
 
 	init:function(){

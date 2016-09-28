@@ -87,7 +87,7 @@ var StatePlay = StateBase.extend({
 	},
 
 	onUpdate:function(dt){
-		this.delayLabel.setString("delay: " + Game.networkDelayTime + "ms");
+		this.delayLabel.setString("delay : " + Math.floor(Game.networkDelayTime+0.5) + " ms");
 	}
 
 });

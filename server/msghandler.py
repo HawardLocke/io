@@ -43,11 +43,17 @@ def on_join(player, ws, args):
 
 
 def on_playermove(player, ws, args):
-	timestamp = time.time()*1000 - args[1]
-	time.time()
+	timestamp = args[1]
+	# simTime = time.time() * 1000 - player.network_delay_time
 	dir_x = args[2]
 	dir_y = args[3]
-	player.on_move(dir_x, dir_y)
+	pos_x = args[4]
+	pos_y = args[5]
+	vx = args[6]
+	vy = args[7]
+	player.setposition(pos_x, pos_y)
+	player.setvelocity(vx, vy)
+	player.on_move(dir_x, dir_y, timestamp)
 
 
 def on_ping(player, ws, args):

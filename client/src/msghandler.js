@@ -8,7 +8,7 @@ var MsgHandler = {
 		NetWork.registHandler(MsgType.scJoined, this.onPlayerJoin);
 		NetWork.registHandler(MsgType.scWorldInfo, this.onWorldInfo);
 		NetWork.registHandler(MsgType.scDeletePlayer, this.onPlayerDeleted);
-		NetWork.registHandler(MsgType.scTransform, this.onPlayerTransform);
+		NetWork.registHandler(MsgType.scMove, this.onPlayerMove);
 		NetWork.registHandler(MsgType.scPlayerInfo, this.onPlayerInfo);
 		NetWork.registHandler(MsgType.scPing, this.onPing);
 	},
@@ -48,8 +48,8 @@ var MsgHandler = {
 		Game.removePlayer(args[1]);
 	},
 
-	onPlayerTransform:function(args){
-		//cc.log("on trans: " + args);
+	onPlayerMove:function(args){
+		cc.log("on trans: " + args);
 		var guid = args[1];
 		var x = args[2];
 		var y = args[3];
@@ -57,6 +57,7 @@ var MsgHandler = {
 		var vy = args[5];
 		var fx = args[6];
 		var fy = args[7];
+		var stamptime = args[8];
 
 		var playerInst = Game.getPlayer(guid);
 		if (playerInst instanceof Player){
@@ -84,11 +85,13 @@ var MsgHandler = {
 		//cc.log('on ping');
 		var pingCount = args[1];
 		var networkDelayTime = args[2];
-		//Game.serverTime = pingCount;
+		var serverTime = args[3];
 		Game.networkDelayTime = networkDelayTime;
+		Game.serverTime = serverTime + networkDelayTime;// 'real' time of server now
 		var localDate = new Date();
-		var times = localDate.getTime();
-		MsgSender.ping(pingCount, times);
+		var clientTime = localDate.getTime();
+		Game.pingTime = clientTime;
+		MsgSender.ping(pingCount, clientTime);
 	}
 
 };
