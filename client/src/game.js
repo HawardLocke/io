@@ -54,9 +54,9 @@ var Game = {
 
 	},
 
-	addPlayer:function(id, name, tp, x, y){
+	addPlayer:function(id, name, tp, x, y, color){
 		if(this.playerList[id] == undefined){
-			var player = new Player(id, name, tp);
+			var player = new Player(id, name, tp, color);
 			this.playerList[id] = player;
 			player.setPosition(x, y);
 			player.onCreate();

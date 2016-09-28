@@ -31,7 +31,8 @@ class Game:
 		self.send_personal(ws, MsgType.scWorldInfo, settings.WORLD_WIDTH, settings.WORLD_HEIGHT)
 
 		tp = randint(1, 9)
-		player = Player(guid, name, tp, ws)
+		color = [randint(0, 255), randint(0, 255), randint(0, 255)]
+		player = Player(guid, name, tp, ws, color)
 		self._players[guid] = player
 
 		print('player count %d' % self.count_alive_players())
@@ -46,7 +47,7 @@ class Game:
 			return
 		x, y = self._get_spawn_position()
 		player.join(x, y)
-		self.send_all(MsgType.scJoined, player.guid, player.name, player.tp, x, y)
+		self.send_all(MsgType.scJoined, player.guid, player.name, player.tp, x, y, player.color)
 		self.send_nearby_players_info_to(player)
 		print('player %s joins.' % player.name)
 

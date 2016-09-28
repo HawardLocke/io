@@ -13,11 +13,11 @@ class Player:
 	# Control accleration
 	acc_control = 1
 
-	def __init__(self, guid, name, tp, ws):
+	def __init__(self, guid, name, tp, ws, color):
 		self.guid = guid
 		self.name = name
 		self.tp = tp
-		self.color = None
+		self.color = color
 		self.ws = ws
 		self.alive = True
 		self.joined = False

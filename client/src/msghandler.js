@@ -32,7 +32,8 @@ var MsgHandler = {
 		var tp = args[3];
 		var x = args[4];
 		var y = args[5];
-		var playerInst = Game.addPlayer(guid, name, tp, x, y);
+		var color = args[6];
+		var playerInst = Game.addPlayer(guid, name, tp, x, y, color);
 		if (Game.myPlayerGuid === guid){
 			Game.myPlayerInst = playerInst;
 			//Game.lookAtPlayer(playerInst);
