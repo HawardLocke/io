@@ -1,5 +1,6 @@
 
 import json
+import time
 
 import settings
 from datatypes import MsgType
@@ -28,6 +29,11 @@ class Player:
 		self.forcey = 0
 		self.max_speed = 1
 		self.needSyncPos = False
+		# 客户端网络延迟相关
+		self.__ping_time = 0
+		self.__can_ping = True
+		self.__ping_count = 0
+		self.network_delay_time = 0  # 平均延迟
 
 	def join(self, posx, posy):
 		self.alive = True
@@ -35,15 +41,26 @@ class Player:
 		self.x = posx
 		self.y = posy
 
-	def update(self, tick):
+	def update(self, dt):
+		self.__check_ping()
 		if self.joined:
-			self.update_position(tick)
-
-			if self.needSyncPos:
-				self.broadcast_position()
+			return
+			# self.update_position(dt)
+			# if self.needSyncPos:
+			# self.broadcast_position()
 		pass
 
-	def update_position(self, tick):
+	def __check_ping(self):
+		if self.__can_ping:
+			curtime = time.time()*1000
+			if curtime - self.__ping_time > 1*1000:
+				self.__ping_time = curtime
+				self.__ping_count += 1
+				self.__can_ping = False
+				self.send_ping(self.__ping_count)
+		pass
+
+	''''def update_position(self, tick):
 		if self.forcex != 0:
 			self.vx += self.forcex * Player.acc_control * tick
 			if abs(self.vx) > self.max_speed:
@@ -86,13 +103,21 @@ class Player:
 		self.y = min(self.y, settings.WORLD_HEIGHT)
 		self.y = max(self.y, 0)
 
-		self.needSyncPos = self.vx != 0 or self.vy != 0
+		self.needSyncPos = self.vx != 0 or self.vy != 0'''
 
 	def on_move(self, dirx, diry):
 		if not self.alive:
 			return
 		self.forcex = dirx
 		self.forcey = diry
+
+	def on_ping(self, ping_count, client_time):
+		# print('on ping')
+		if self.__ping_count == ping_count:
+			self.__can_ping = True
+			curtime = time.time()*1000
+			self.network_delay_time = ((self.__ping_count - 1) * self.network_delay_time + (curtime - self.__ping_time) * 0.5) / self.__ping_count
+			pass
 
 	def setposition(self, x, y):
 		self.x = x
@@ -103,6 +128,11 @@ class Player:
 
 	def get_transform_info(self):
 		return json.dumps([MsgType.scTransform, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey])
+
+	def send_ping(self, pingcount):
+		MsgSender.send_to(self, MsgType.scPing, pingcount, self.network_delay_time)
+		# print('send ping: %d' % pingcount)
+		pass
 
 	def broadcast_position(self):
 		MsgSender.send_to_nearby(MsgType.scTransform, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey)

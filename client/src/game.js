@@ -21,6 +21,10 @@ var Game = {
 	myPlayerGuid:0,
 	myPlayerInst:null,
 
+	serverTime:0,
+	networkDelayTime:0,
+
+
 	init:function(){
 		this.statusMap[StateType.ST_ACCOUNT] = new StateAccount(gameScene);
 		this.statusMap[StateType.ST_PLAY] = new StatePlay(gameScene);
@@ -90,6 +94,11 @@ var Game = {
 		if(this.myPlayerInst != null) {
 			Game.lookAtPlayer(this.myPlayerInst);
 		}
+		this._updateState(dt);
+	},
+
+	_updateState:function(dt){
+		this.statusMap[this.state].onUpdate(dt);
 	},
 
 	lookAtPlayer:function(playerInst){

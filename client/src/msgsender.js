@@ -15,7 +15,13 @@ var MsgSender = {
 	},
 
 	move:function(x, y){
-		NetWork.sendMessage([MsgType.csMove,x,y]);
+		var localDate = new Date();
+		var times = localDate.getTime();
+		NetWork.sendMessage([MsgType.csMove,times,x,y]);
+	},
+
+	ping:function(pingCount, clientTime){
+		NetWork.sendMessage([MsgType.csPing, pingCount, clientTime])
 	}
 
 };

@@ -3,6 +3,7 @@ import asyncio
 import json
 from aiohttp import web
 import time
+import datetime
 
 import settings
 from game import Game
@@ -59,17 +60,16 @@ event_loop.set_debug(True)
 
 app = web.Application()
 
-game = Game()
-app["game"] = game
-app["msghandler"] = MsgHandler(game)
+app["game"] = Game()
+app["msghandler"] = MsgHandler(app["game"])
 app["msghandler"].regist_all()
-app["msgsender"] = MsgSender(game)
+app["msgsender"] = MsgSender(app["game"])
 
 app.router.add_route('GET', '/connect', wshandler)
 # app.router.add_route('GET', '/{name}', handle)
 # app.router.add_route('GET', '/', handle)
 
-asyncio.ensure_future(game_loop(game))
+asyncio.ensure_future(game_loop(app["game"]))
 
 port = int(os.environ.get('PORT', 5000))
 web.run_app(app, host='127.0.0.1', port=port)

@@ -1,4 +1,5 @@
 
+import time
 # from game import Game
 # from player import Player
 from datatypes import MsgType
@@ -19,6 +20,7 @@ class MsgHandler:
 		self.regist(MsgType.csNewPlayer, on_newplayer)
 		self.regist(MsgType.csJoin, on_join)
 		self.regist(MsgType.csMove, on_playermove)
+		self.regist(MsgType.csPing, on_ping)
 
 	def on_msg(self, player, ws, data):
 		cmd = data
@@ -41,6 +43,14 @@ def on_join(player, ws, args):
 
 
 def on_playermove(player, ws, args):
-	dir_x = args[1]
-	dir_y = args[2]
+	timestamp = time.time()*1000 - args[1]
+	time.time()
+	dir_x = args[2]
+	dir_y = args[3]
 	player.on_move(dir_x, dir_y)
+
+
+def on_ping(player, ws, args):
+	server_time = args[1]
+	client_time = args[2]
+	player.on_ping(server_time, client_time)

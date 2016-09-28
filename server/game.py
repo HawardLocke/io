@@ -1,4 +1,4 @@
-from random import randint, choice
+from random import randint
 import json
 
 import settings
@@ -19,9 +19,9 @@ class Game:
 	def create_world(self):
 		pass
 
-	def update_world(self, tick):
+	def update_world(self, dt):
 		for player in self._players.values():
-			player.update(tick)
+			player.update(dt)
 
 	def new_player(self, name, seed, ws):
 		self._last_id += 1

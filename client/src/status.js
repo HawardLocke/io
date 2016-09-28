@@ -17,6 +17,9 @@ var StateBase = cc.Class.extend({
 		if(this.node != null){
 			this.node.setVisible(false);
 		}
+	},
+	onUpdate:function(dt){
+
 	}
 });
 
@@ -63,22 +66,28 @@ var StateAccount = StateBase.extend({
 
 var StatePlay = StateBase.extend({
 
+	delayLabel:null,
+
 	onEnter:function(){
 		this._super();
 
 		gameScene.getWorldLayer().setVisible(true);
 
 		var size = cc.winSize;
-		var helloLabel = new cc.LabelTTF("what we don't know", "Arial", 14);
-		helloLabel.x = size.width / 2;
-		helloLabel.y = size.height / 2 + 200;
-		this.node.addChild(helloLabel, 5);
+		this.delayLabel = new cc.LabelTTF("delay:--", "Arial", 14);
+		this.delayLabel.x = size.width - 100;
+		this.delayLabel.y = 20;
+		this.node.addChild(this.delayLabel, 5);
 
 		MsgSender.join();
 	},
 
 	onExit:function(){
 		gameScene.getWorldLayer().setVisible(false);
+	},
+
+	onUpdate:function(dt){
+		this.delayLabel.setString("delay: " + Game.networkDelayTime + "ms");
 	}
 
 });

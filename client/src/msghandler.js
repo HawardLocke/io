@@ -10,6 +10,7 @@ var MsgHandler = {
 		NetWork.registHandler(MsgType.scDeletePlayer, this.onPlayerDeleted);
 		NetWork.registHandler(MsgType.scTransform, this.onPlayerTransform);
 		NetWork.registHandler(MsgType.scPlayerInfo, this.onPlayerInfo);
+		NetWork.registHandler(MsgType.scPing, this.onPing);
 	},
 
 	onError:function(args){
@@ -77,6 +78,17 @@ var MsgHandler = {
 		if (guid != Game.myPlayerGuid) {
 			Game.addPlayer(guid, name, tp, x, y);
 		}
+	},
+
+	onPing:function(args){
+		//cc.log('on ping');
+		var pingCount = args[1];
+		var networkDelayTime = args[2];
+		//Game.serverTime = pingCount;
+		Game.networkDelayTime = networkDelayTime;
+		var localDate = new Date();
+		var times = localDate.getTime();
+		MsgSender.ping(pingCount, times);
 	}
 
 };

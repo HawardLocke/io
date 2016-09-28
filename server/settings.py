@@ -1,5 +1,5 @@
 
-GAME_SPEED = 10  # fps
+GAME_SPEED = 5  # fps
 
 MAX_PLAYERS = 10
 MAX_TOP_SCORES = 15
