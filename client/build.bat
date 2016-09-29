@@ -1,1 +1,1 @@
-D:\MyDev\cocos2d-x-3.11.1\tools\cocos2d-console\bin\cocos compile -p web -m release
+cocos compile -p web -m release

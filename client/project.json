@@ -22,7 +22,6 @@
 		"src/player.js",
 		"src/touchcontrol.js",
         "src/msghandler.js",
-		"src/msghandler.js",
 		"src/msgsender.js"
 	]
 }
