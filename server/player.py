@@ -129,7 +129,7 @@ class Player:
 		self.vy = y
 
 	def get_basic_info(self):
-		return json.dumps([MsgType.scPlayerInfo, self.guid, self.name, self.tp, self.x, self.y])
+		return json.dumps([MsgType.scPlayerInfo, self.guid, self.name, self.tp, self.x, self.y, self.color])
 
 	def get_transform_info(self):
 		return json.dumps([MsgType.scMove, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey, time.time()*1000])

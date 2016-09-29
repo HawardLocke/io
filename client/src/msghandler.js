@@ -50,7 +50,7 @@ var MsgHandler = {
 	},
 
 	onPlayerMove:function(args){
-		cc.log("on trans: " + args);
+		//cc.log("on trans: " + args);
 		var guid = args[1];
 		var x = args[2];
 		var y = args[3];
@@ -77,8 +77,9 @@ var MsgHandler = {
 		var tp = args[3];
 		var x = args[4];
 		var y = args[5];
+		var color = args[6];
 		if (guid != Game.myPlayerGuid) {
-			Game.addPlayer(guid, name, tp, x, y);
+			Game.addPlayer(guid, name, tp, x, y, color);
 		}
 	},
 
