@@ -14,7 +14,7 @@ var Player = BaseObj.extend({
 		this.name = name;
 		this.type = type;
 
-		this.radius = 50;
+		this.radius = 30;
 		var segment = this.radius*3;
 
 		//var sprite = new cc.Sprite(res.dot_png);
