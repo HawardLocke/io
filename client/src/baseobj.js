@@ -32,6 +32,11 @@ var BaseObj = cc.Class.extend({
 	getPositionX:function(){return this.x;},
 	getPositionY:function(){return this.y;},
 
+	setRotation:function(angle){
+		if(this.avatarRoot != null)
+			this.avatarRoot.setRotation(angle);
+	},
+
 	setVelocity:function(x, y){
 		this.vx = x;
 		this.vy = y;

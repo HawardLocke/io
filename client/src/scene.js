@@ -73,6 +73,13 @@ var GameScene = cc.Scene.extend({
 			onKeyPressed:this.onKeyPressed,
 			onKeyReleased:this.onKeyReleased
 		},this);
+		cc.eventManager.addListener({
+			event:cc.EventListener.MOUSE,
+			onMouseMove:this.onMouseMove,
+			onMouseUp:this.onMouseUp,
+			onMouseDown:this.onMouseDown,
+			onMouseScroll:this.onMouseScroll
+		},this);
 		this.worldLayer = new WorldBGLayer;
 		this.worldLayer.setVisible(false);
 		this.addChild(this.worldLayer);
@@ -87,6 +94,19 @@ var GameScene = cc.Scene.extend({
 	},
 	onKeyReleased:function (keyCode, event) {
 		TouchControl.onKeyReleased(keyCode);
+	},
+	onMouseMove:function(event){
+		//var str = "MousePosition X: " + event.getLocationX() + "  Y:" + event.getLocationY();
+		TouchControl.onMouseMove(event.getLocationX(), event.getLocationY());
+	},
+	onMouseUp:function(event){
+		//var str = "Mouse Up detected, Key: " + event.getButton();
+	},
+	onMouseDown:function(event){
+		//var str = "Mouse Down detected, Key: " + event.getButton();
+	},
+	onMouseScroll:function(event){
+		//var str = "Mouse Scroll detected, X: " + event.getLocationX() + "  Y:" + event.getLocationY();
 	},
 	getWorldLayer:function(){
 		return this.worldLayer;
