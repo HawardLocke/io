@@ -93,11 +93,11 @@ var TouchControl = {
 
 		var dx = x - cc.winSize.width * 0.5;
 		var dy = y - cc.winSize.height * 0.5;
-		var radians = -Math.atan2(dy, dx);
-		var degree = 180 * radians / 3.141592659;
-		/*Game.myPlayerInst.setRotation(degree);
+		//var radians = -Math.atan2(dy, dx);
+		//var degree = 180 * radians / 3.141592659;
+		//Game.myPlayerInst.setRotation(degree);
 
-		var px = Game.myPlayerInst.getPositionX();
+		/*var px = Game.myPlayerInst.getPositionX();
 		var py = Game.myPlayerInst.getPositionY();
 		var vx = Game.myPlayerInst.getVelocityX();
 		var vy = Game.myPlayerInst.getVelocityY();
@@ -106,7 +106,9 @@ var TouchControl = {
 		MsgSender.move(vec.x,vec.y,px,py,vx,vy);
 
 		Game.myPlayerInst.setForce(vec.x,vec.y);*/
-		Game.myPlayerInst.rotate(degree);
+		var vec = new cc.math.Vec2(dx,dy);
+		vec.normalize();
+		Game.myPlayerInst.setTargetDirection(vec.x,vec.y);
 	}
 
 };

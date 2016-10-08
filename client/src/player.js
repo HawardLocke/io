@@ -8,9 +8,9 @@ var Player = BaseObj.extend({
 	type:0,
 	radius:20,
 
-	needSyncRotate:false,
-	lastTargetDegree:0,
-	currentTargetDegree:0,
+	needSyncDirection:false,
+	targetDirX:0,
+	targetDirY:0,
 
 	ctor:function(id, name, type, color){
 		this._super();
@@ -64,22 +64,27 @@ var Player = BaseObj.extend({
 			this.avatarBody.setRotation(angle);
 	},
 
+	setForce:function(fx, fy){
+		this._super(fx, fy);
+		var radians = -Math.atan2(fy, fx);
+		var degree = 180 * radians / io.PI;
+		this.setRotation(degree);
+	},
+
 	// private
 	_updateRotate:function(dt){
-		if(this.needSyncRotate){
-			this.needSyncRotate = false;
+		if(this.needSyncDirection){
+			this.needSyncDirection = false;
 			// send to server
-			var dirx = Math.cos(this.currentTargetDegree);
-			var diry = Math.sin(this.currentTargetDegree);
-			MsgSender.move(dirx,diry,this.x,this.y,this.vx,this.vy);
+			MsgSender.move(this.targetDirX,this.targetDirY,this.x,this.y,this.vx,this.vy);
 		}
 	},
 
-	rotate:function(degree){
-		if(this.currentTargetDegree != degree){
-			this.needSyncRotate = true;
-			this.lastTargetDegree = this.currentTargetDegree;
-			this.currentTargetDegree = degree;
+	setTargetDirection:function(dirx, diry){
+		if(this.targetDirX != dirx || this.targetDirY != diry){
+			this.needSyncDirection = true;
+			this.targetDirX = dirx;
+			this.targetDirY = diry;
 		}
 	}
 
