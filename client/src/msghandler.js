@@ -65,6 +65,9 @@ var MsgHandler = {
 			playerInst.setPosition(x, y);
 			playerInst.setVelocity(vx, vy);
 			playerInst.setForce(fx, fy);
+			var radians = -Math.atan2(y, x);
+			var degree = 180 * radians / 3.141592659;
+			playerInst.setRotation(degree);
 			if (guid == Game.myPlayerGuid){
 				//Game.lookAtPlayer(playerInst);
 			}

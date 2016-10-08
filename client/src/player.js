@@ -8,6 +8,10 @@ var Player = BaseObj.extend({
 	type:0,
 	radius:20,
 
+	needSyncRotate:false,
+	lastTargetDegree:0,
+	currentTargetDegree:0,
+
 	ctor:function(id, name, type, color){
 		this._super();
 		this.id = id;
@@ -25,7 +29,8 @@ var Player = BaseObj.extend({
 		nameLabel.setPositionY(this.radius + 5);
 		this.avatarRoot.addChild(nameLabel, 5);
 
-		var bodyColor = cc.color(color[0], color[1], color[2], 255);
+		var colorRgb = io.commonColors[color];
+		var bodyColor = cc.color(colorRgb[0], colorRgb[1], colorRgb[2], 255);
 		var lineWidth = 2;
 
 		var draw = new cc.DrawNode();
@@ -39,6 +44,8 @@ var Player = BaseObj.extend({
 
 	},
 
+	// overrides
+
 	onCreate:function(){
 		this._super();
 	},
@@ -49,5 +56,31 @@ var Player = BaseObj.extend({
 
 	onUpdate:function(dt){
 		this._super(dt);
+		this._updateRotate(dt);
+	},
+
+	setRotation:function(angle){
+		if(this.avatarBody != null)
+			this.avatarBody.setRotation(angle);
+	},
+
+	// private
+	_updateRotate:function(dt){
+		if(this.needSyncRotate){
+			this.needSyncRotate = false;
+			// send to server
+			var dirx = Math.cos(this.currentTargetDegree);
+			var diry = Math.sin(this.currentTargetDegree);
+			MsgSender.move(dirx,diry,this.x,this.y,this.vx,this.vy);
+		}
+	},
+
+	rotate:function(degree){
+		if(this.currentTargetDegree != degree){
+			this.needSyncRotate = true;
+			this.lastTargetDegree = this.currentTargetDegree;
+			this.currentTargetDegree = degree;
+		}
 	}
+
 });

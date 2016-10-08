@@ -13,7 +13,7 @@ var TouchControl = {
 	},
 
 	onKeyPressed:function(keyCode){
-		if (Game.state != StateType.ST_PLAY)
+		/*if (Game.state != StateType.ST_PLAY)
 			return;
 
 		var newMoveKey = false;
@@ -47,11 +47,11 @@ var TouchControl = {
 			MsgSender.move(x,y,posx,posy,vx,vy);
 
 			Game.myPlayerInst.setForce(x, y);
-		}
+		}*/
 	},
 
 	onKeyReleased:function(keyCode){
-		if (Game.state != StateType.ST_PLAY)
+		/*if (Game.state != StateType.ST_PLAY)
 			return;
 		var newMoveKey = false;
 		if((keyCode == 87 || keyCode == 38)){
@@ -84,7 +84,7 @@ var TouchControl = {
 			MsgSender.move(x,y,posx,posy,vx,vy);
 
 			Game.myPlayerInst.setForce(x, y);
-		}
+		}*/
 	},
 
 	onMouseMove:function(x,y){
@@ -95,7 +95,7 @@ var TouchControl = {
 		var dy = y - cc.winSize.height * 0.5;
 		var radians = -Math.atan2(dy, dx);
 		var degree = 180 * radians / 3.141592659;
-		Game.myPlayerInst.setRotation(degree);
+		/*Game.myPlayerInst.setRotation(degree);
 
 		var px = Game.myPlayerInst.getPositionX();
 		var py = Game.myPlayerInst.getPositionY();
@@ -105,8 +105,8 @@ var TouchControl = {
 		vec.normalize();
 		MsgSender.move(vec.x,vec.y,px,py,vx,vy);
 
-		Game.myPlayerInst.setForce(vec.x,vec.y);
-
+		Game.myPlayerInst.setForce(vec.x,vec.y);*/
+		Game.myPlayerInst.rotate(degree);
 	}
 
 };

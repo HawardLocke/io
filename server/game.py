@@ -31,7 +31,7 @@ class Game:
 		self.send_personal(ws, MsgType.scWorldInfo, settings.WORLD_WIDTH, settings.WORLD_HEIGHT)
 
 		tp = randint(1, 9)
-		color = [randint(0, 255), randint(0, 255), randint(0, 255)]
+		color = randint(0, 9)
 		player = Player(guid, name, tp, ws, color)
 		self._players[guid] = player
 

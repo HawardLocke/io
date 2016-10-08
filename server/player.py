@@ -2,7 +2,6 @@
 import json
 import time
 
-import settings
 from datatypes import MsgType
 from msgsender import MsgSender
 
@@ -29,11 +28,11 @@ class Player:
 		self.forcey = 0
 		self.max_speed = 1
 		self.needSyncPos = False
-		# 客户端网络延迟相关
+		# network delay
 		self.__ping_time = 0
 		self.__can_ping = True
 		self.__ping_count = 0
-		self.network_delay_time = 0  # 平均延迟
+		self.network_delay_time = 0  # average delay
 
 	def join(self, posx, posy):
 		self.alive = True
@@ -59,51 +58,6 @@ class Player:
 				self.__can_ping = False
 				self.send_ping(self.__ping_count, self.__ping_time)
 		pass
-
-	"""def update_position(self, tick):
-		if self.forcex != 0:
-			self.vx += self.forcex * Player.acc_control * tick
-			if abs(self.vx) > self.max_speed:
-				if self.vx > 0:
-					self.vx = self.max_speed
-				else:
-					self.vx = -self.max_speed
-		if self.forcey != 0:
-			self.vy += self.forcey * Player.acc_control * tick
-			if abs(self.vy) > self.max_speed:
-				if self.vy > 0:
-					self.vy = self.max_speed
-				else:
-					self.vy = -self.max_speed
-
-		if self.vx > 0:
-			self.vx -= Player.acc_friction * tick
-			if self.vx <= 0:
-				self.vx = 0
-		if self.vx < 0:
-			self.vx += Player.acc_friction * tick
-			if self.vx >= 0:
-				self.vx = 0
-		if self.vy > 0:
-			self.vy -= Player.acc_friction * tick
-			if self.vy <= 0:
-				self.vy = 0
-		if self.vy < 0:
-			self.vy += Player.acc_friction * tick
-			if self.vy >= 0:
-				self.vy = 0
-
-		if self.vx != 0:
-			self.x += self.vx * tick
-		if self.vy != 0:
-			self.y += self.vy * tick
-
-		self.x = min(self.x, settings.WORLD_WIDTH)
-		self.x = max(self.x, 0)
-		self.y = min(self.y, settings.WORLD_HEIGHT)
-		self.y = max(self.y, 0)
-
-		self.needSyncPos = self.vx != 0 or self.vy != 0"""
 
 	def on_move(self, dirx, diry, timestamp):
 		if not self.alive:

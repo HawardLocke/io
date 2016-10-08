@@ -52,7 +52,7 @@
  *
  */
 
-
+var io = io||{};
 
 
 var gameScene = null;
