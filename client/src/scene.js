@@ -14,19 +14,15 @@ var WorldBGLayer = cc.Layer.extend({
 
 	tileRoot:null,
 	tiles:null,
+	drawNode:null,
 
 	ctor:function () {
 		this._super();
 
 		var size = cc.winSize;
-		var helloLabel = new cc.LabelTTF("(half,half)", "Arial", 14);
-		helloLabel.x = size.width / 2;
-		helloLabel.y = size.height / 2;
-		this.addChild(helloLabel, 5);
-		helloLabel = new cc.LabelTTF("(0,0)", "Arial", 14);
-		helloLabel.x = 0;
-		helloLabel.y = 0;
-		this.addChild(helloLabel, 5);
+
+		this.drawNode = new cc.DrawNode();
+		this.addChild(this.drawNode, 5);
 
 		this.tileRoot = new cc.Node;
 		this.addChild(this.tileRoot, 0);
@@ -48,6 +44,13 @@ var WorldBGLayer = cc.Layer.extend({
 			}
 		}
 		return true;
+	},
+
+	RefreshWorldInfo:function(){
+		var width = Game.worldWidth * Setting.worldSizeRatio;
+		var height = Game.worldHeight * Setting.worldSizeRatio;
+		this.drawNode.drawDot(cc.p(width/2,height/2), 10, cc.color(255,0,0,255));
+		this.drawNode.drawRect(cc.p(0,0), cc.p(width,height), cc.color(0,0,0,0), 3, cc.color(255,0,0,255));
 	},
 
 	setPosition:function(x, y){

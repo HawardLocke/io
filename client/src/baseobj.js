@@ -50,6 +50,9 @@ var BaseObj = cc.Class.extend({
 		this.forcey = fy;
 	},
 
+	getForceX:function(){return this.forcex;},
+	getForceY:function(){return this.forcey;},
+
 	onCreate:function(){
 		this.avatarRoot.setVisible(true);
 	},
@@ -83,26 +86,29 @@ var BaseObj = cc.Class.extend({
 			}
 		}
 
-		if (this.vx > 0) {
-			this.vx -= Setting.acc_friction * dt;
-			if (this.vx <= 0)
-				this.vx = 0;
+		if (this.forcex == 0) {
+			if (this.vx > 0) {
+				this.vx -= Setting.acc_friction * dt;
+				if (this.vx <= 0)
+					this.vx = 0;
+			}
+			if (this.vx < 0) {
+				this.vx += Setting.acc_friction * dt;
+				if (this.vx >= 0)
+					this.vx = 0;
+			}
 		}
-		if (this.vx < 0) {
-			this.vx += Setting.acc_friction * dt;
-			if (this.vx >= 0)
-				this.vx = 0;
-		}
-		if (this.vy > 0)
-		{
-			this.vy -= Setting.acc_friction * dt;
-			if (this.vy <= 0)
-				this.vy = 0;
-		}
-		if(this.vy < 0) {
-			this.vy += Setting.acc_friction * dt;
-			if (this.vy >= 0)
-				this.vy = 0;
+		if (this.forcey == 0) {
+			if (this.vy > 0) {
+				this.vy -= Setting.acc_friction * dt;
+				if (this.vy <= 0)
+					this.vy = 0;
+			}
+			if (this.vy < 0) {
+				this.vy += Setting.acc_friction * dt;
+				if (this.vy >= 0)
+					this.vy = 0;
+			}
 		}
 
 		if(this.vx != 0)

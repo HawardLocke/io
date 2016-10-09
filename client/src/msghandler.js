@@ -42,6 +42,7 @@ var MsgHandler = {
 	onWorldInfo:function(args){
 		Game.worldWidth = args[1];
 		Game.worldHeight = args[2];
+		gameScene.getWorldLayer().RefreshWorldInfo();
 	},
 
 	onPlayerDeleted:function(args){

@@ -67,6 +67,8 @@ var StateAccount = StateBase.extend({
 var StatePlay = StateBase.extend({
 
 	delayLabel:null,
+	forceLabel:null,
+	speedLabel:null,
 
 	onEnter:function(){
 		this._super();
@@ -79,6 +81,16 @@ var StatePlay = StateBase.extend({
 		this.delayLabel.y = 20;
 		this.node.addChild(this.delayLabel, 5);
 
+		this.forceLabel = new cc.LabelTTF("force:--", "Arial", 14);
+		this.forceLabel.x = size.width - 100;
+		this.forceLabel.y = 40;
+		this.node.addChild(this.forceLabel, 5);
+
+		this.speedLabel = new cc.LabelTTF("speed:--", "Arial", 14);
+		this.speedLabel.x = size.width - 100;
+		this.speedLabel.y = 60;
+		this.node.addChild(this.speedLabel, 5);
+
 		MsgSender.join();
 	},
 
@@ -88,6 +100,14 @@ var StatePlay = StateBase.extend({
 
 	onUpdate:function(dt){
 		this.delayLabel.setString("delay : " + Math.floor(Game.networkDelayTime+0.5) + " ms");
+
+		if(Game.myPlayerInst != null)
+		{
+			this.forceLabel.setString("force : "
+				+ Game.myPlayerInst.getForceX().toFixed(2) + ", " + Game.myPlayerInst.getForceY().toFixed(2));
+			this.speedLabel.setString("speed : "
+				+ Game.myPlayerInst.getVelocityX().toFixed(2) + ", " + Game.myPlayerInst.getVelocityY().toFixed(2));
+		}
 	}
 
 });
