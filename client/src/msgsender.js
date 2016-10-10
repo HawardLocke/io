@@ -15,9 +15,7 @@ var MsgSender = {
 	},
 
 	move:function(degree,dirx, diry, posx, posy, vx, vy){
-		var localDate = new Date();
-		var curTime = localDate.getTime();
-		var timeStamp = Game.serverTime + (curTime - Game.pingTime);// 'real' time now
+		var timeStamp = Game.calServerTimeNow();
 		NetWork.sendMessage([MsgType.csMove,timeStamp,degree,dirx,diry,posx,posy,vx,vy]);
 	},
 

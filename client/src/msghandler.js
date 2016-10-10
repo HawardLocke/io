@@ -58,7 +58,20 @@ var MsgHandler = {
 		var vy = args[5];
 		var fx = args[6];
 		var fy = args[7];
-		var stamptime = args[8];
+		var timestamp = args[8];
+
+		var curTime = Game.calServerTimeNow();
+		var dt = curTime - timestamp;
+		cc.log("dt " + curTime);
+		var dx = vx * dt + 0.5 * fx * Math.pow(dt,2);
+		var dy = vy * dt + 0.5 * fy * Math.pow(dt,2);
+		x += dx;
+		y += dy;
+		vx += fx * Setting.acc_control * dt;
+		vy += fy * Setting.acc_control * dt;
+
+		//cc.log('x ' + x);
+		//cc.log('y ' + y);
 
 		var playerInst = Game.getPlayer(guid);
 		if (playerInst instanceof Player){

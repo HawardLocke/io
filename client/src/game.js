@@ -21,12 +21,14 @@ var Game = {
 	myPlayerGuid:0,
 	myPlayerInst:null,
 
+	localDate:null,
 	serverTime:0,
 	networkDelayTime:0,
 	pingTime:0,
 
 
 	init:function(){
+		this.localDate = new Date();
 		this.statusMap[StateType.ST_ACCOUNT] = new StateAccount(gameScene);
 		this.statusMap[StateType.ST_PLAY] = new StatePlay(gameScene);
 		this.statusMap[StateType.ST_OVER] = new StateOver(gameScene);
@@ -107,6 +109,11 @@ var Game = {
 		var dx = cc.winSize.width * 0.5 - playerInst.getPositionX()*Setting.worldSizeRatio;
 		var dy = cc.winSize.height * 0.5 - playerInst.getPositionY()*Setting.worldSizeRatio;
 		wl.setPosition(dx, dy);
+	},
+
+	// get 'real' time on server now
+	calServerTimeNow:function(){
+		return Game.serverTime + (this.localDate.getTime() - Game.pingTime);
 	}
 
 };
