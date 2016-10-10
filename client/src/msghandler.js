@@ -61,8 +61,8 @@ var MsgHandler = {
 		var timestamp = args[8];
 
 		var curTime = Game.calServerTimeNow();
-		var dt = curTime - timestamp;
-		cc.log("dt " + curTime);
+		var dt = (curTime - timestamp)/1000;
+		//cc.log("dt " + dt);
 		var dx = vx * dt + 0.5 * fx * Math.pow(dt,2);
 		var dy = vy * dt + 0.5 * fy * Math.pow(dt,2);
 		x += dx;

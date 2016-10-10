@@ -22,9 +22,9 @@ var Game = {
 	myPlayerInst:null,
 
 	localDate:null,
-	serverTime:0,
-	networkDelayTime:0,
-	pingTime:0,
+	serverTime:0,		// ms
+	networkDelayTime:0,	// ms
+	pingTime:0,			// ms
 
 
 	init:function(){
