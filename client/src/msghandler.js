@@ -62,7 +62,8 @@ var MsgHandler = {
 
 		var curTime = Game.calServerTimeNow();
 		var dt = (curTime - timestamp)/1000;
-		//cc.log("dt " + dt);
+		//if(guid != Game.myPlayerGuid)
+		//	cc.log("dt " + dt + " server time" + Game.serverTime + " ping time" + Game.pingTime);
 		var dx = vx * dt + 0.5 * fx * Math.pow(dt,2);
 		var dy = vy * dt + 0.5 * fy * Math.pow(dt,2);
 		x += dx;

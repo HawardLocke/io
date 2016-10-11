@@ -69,27 +69,35 @@ var StatePlay = StateBase.extend({
 	delayLabel:null,
 	forceLabel:null,
 	speedLabel:null,
+	serverTimeLabel:null,
 
 	onEnter:function(){
 		this._super();
 
 		gameScene.getWorldLayer().setVisible(true);
 
+		var lineHeight = 20;
+
 		var size = cc.winSize;
 		this.delayLabel = new cc.LabelTTF("delay:--", "Arial", 14);
 		this.delayLabel.x = size.width - 100;
-		this.delayLabel.y = 20;
+		this.delayLabel.y = lineHeight;
 		this.node.addChild(this.delayLabel, 5);
 
 		this.forceLabel = new cc.LabelTTF("force:--", "Arial", 14);
 		this.forceLabel.x = size.width - 100;
-		this.forceLabel.y = 40;
+		this.forceLabel.y = lineHeight*2;
 		this.node.addChild(this.forceLabel, 5);
 
 		this.speedLabel = new cc.LabelTTF("speed:--", "Arial", 14);
 		this.speedLabel.x = size.width - 100;
-		this.speedLabel.y = 60;
+		this.speedLabel.y = lineHeight*3;
 		this.node.addChild(this.speedLabel, 5);
+
+		this.serverTimeLabel = new cc.LabelTTF("server:--", "Arial", 14);
+		this.serverTimeLabel.x = size.width - 100;
+		this.serverTimeLabel.y = lineHeight*4;
+		this.node.addChild(this.serverTimeLabel, 5);
 
 		MsgSender.join();
 	},
@@ -100,6 +108,7 @@ var StatePlay = StateBase.extend({
 
 	onUpdate:function(dt){
 		this.delayLabel.setString("delay : " + Math.floor(Game.networkDelayTime+0.5) + " ms");
+		this.serverTimeLabel.setString("server : " + Math.floor(Game.serverTime/1000) + " s");
 
 		if(Game.myPlayerInst != null)
 		{

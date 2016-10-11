@@ -16,6 +16,7 @@ var MsgSender = {
 
 	move:function(degree,dirx, diry, posx, posy, vx, vy){
 		var timeStamp = Game.calServerTimeNow();
+		//cc.log('st ' + timeStamp);
 		NetWork.sendMessage([MsgType.csMove,timeStamp,degree,dirx,diry,posx,posy,vx,vy]);
 	},
 

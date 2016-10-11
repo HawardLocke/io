@@ -21,14 +21,12 @@ var Game = {
 	myPlayerGuid:0,
 	myPlayerInst:null,
 
-	localDate:null,
 	serverTime:0,		// ms
 	networkDelayTime:0,	// ms
 	pingTime:0,			// ms
 
 
 	init:function(){
-		this.localDate = new Date();
 		this.statusMap[StateType.ST_ACCOUNT] = new StateAccount(gameScene);
 		this.statusMap[StateType.ST_PLAY] = new StatePlay(gameScene);
 		this.statusMap[StateType.ST_OVER] = new StateOver(gameScene);
@@ -113,7 +111,8 @@ var Game = {
 
 	// get 'real' time on server now
 	calServerTimeNow:function(){
-		return Game.serverTime + (this.localDate.getTime() - Game.pingTime);
+		var localDate = new Date();
+		return Game.serverTime + (localDate.getTime() - Game.pingTime);
 	}
 
 };
