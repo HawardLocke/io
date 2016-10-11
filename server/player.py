@@ -88,6 +88,14 @@ class Player:
 	def get_transform_info(self):
 		return json.dumps([MsgType.scMove, self.guid, self.x, self.y, self.vx, self.vy, self.forcex, self.forcey, time.time()*1000])
 
+	def force_ping(self):
+		curtime = time.time() * 1000
+		self.__ping_time = curtime
+		self.__ping_count += 1
+		self.__can_ping = False
+		self.send_ping(self.__ping_count, self.__ping_time)
+		self.send_ping(self.__ping_count, self.__ping_time)
+
 	def send_ping(self, pingcount, pingtime):
 		MsgSender.send_to(self, MsgType.scPing, pingcount, self.network_delay_time, pingtime)
 		# print('send ping: %d' % pingcount)
