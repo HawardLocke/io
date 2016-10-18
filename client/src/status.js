@@ -70,6 +70,7 @@ var StatePlay = StateBase.extend({
 	forceLabel:null,
 	speedLabel:null,
 	serverTimeLabel:null,
+	minmap:null,
 
 	onEnter:function(){
 		this._super();
@@ -78,26 +79,31 @@ var StatePlay = StateBase.extend({
 
 		var lineHeight = 20;
 
-		var size = cc.winSize;
+		var windowSize = cc.winSize;
 		this.delayLabel = new cc.LabelTTF("delay:--", "Arial", 14);
-		this.delayLabel.x = size.width - 100;
+		this.delayLabel.x = windowSize.width - 100;
 		this.delayLabel.y = lineHeight;
 		this.node.addChild(this.delayLabel, 5);
 
 		this.forceLabel = new cc.LabelTTF("force:--", "Arial", 14);
-		this.forceLabel.x = size.width - 100;
+		this.forceLabel.x = windowSize.width - 100;
 		this.forceLabel.y = lineHeight*2;
 		this.node.addChild(this.forceLabel, 5);
 
 		this.speedLabel = new cc.LabelTTF("speed:--", "Arial", 14);
-		this.speedLabel.x = size.width - 100;
+		this.speedLabel.x = windowSize.width - 100;
 		this.speedLabel.y = lineHeight*3;
 		this.node.addChild(this.speedLabel, 5);
 
 		this.serverTimeLabel = new cc.LabelTTF("server:--", "Arial", 14);
-		this.serverTimeLabel.x = size.width - 100;
+		this.serverTimeLabel.x = windowSize.width - 100;
 		this.serverTimeLabel.y = lineHeight*4;
 		this.node.addChild(this.serverTimeLabel, 5);
+
+		this.minmap = new cc.DrawNode();
+		this.minmap.x = windowSize.width - 110;
+		this.minmap.y = windowSize.height - 110;
+		this.node.addChild(this.minmap, 5);
 
 		MsgSender.join();
 	},
@@ -116,6 +122,24 @@ var StatePlay = StateBase.extend({
 				+ Game.myPlayerInst.getForceX().toFixed(2) + ", " + Game.myPlayerInst.getForceY().toFixed(2));
 			this.speedLabel.setString("speed : "
 				+ Game.myPlayerInst.getVelocityX().toFixed(2) + ", " + Game.myPlayerInst.getVelocityY().toFixed(2));
+		}
+
+		// minmap
+		var minmapWidth = 200;
+		var minmapScale = minmapWidth / Game.worldWidth;
+		var minmapHeight = Game.worldHeight * minmapScale;
+		var myPlayerColor = cc.color(255, 0, 0, 255);
+		var otherPlayerColor = cc.color(255, 255, 0, 255);
+		this.minmap.clear();
+		this.minmap.drawRect(cc.p(-0.5*minmapWidth,-0.5*minmapHeight), cc.p(0.5*minmapWidth,0.5*minmapHeight), cc.color(0,255,0,20), 2, cc.color(0, 255, 0, 0));
+		for(var id in Game.playerList){
+			var player = Game.playerList[id];
+			var x = (player.getPositionX() - 0.5*Game.worldWidth) * minmapScale;
+			var y = (player.getPositionY() - 0.5*Game.worldHeight) * minmapScale;
+			if (player.id == Game.myPlayerGuid)
+				this.minmap.drawDot(cc.p(x, y), 2, myPlayerColor);
+			else
+				this.minmap.drawDot(cc.p(x, y), 2, otherPlayerColor);
 		}
 	}
 

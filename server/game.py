@@ -64,8 +64,8 @@ class Game:
 		return sum([int(p.alive) for p in self._players.values()])
 
 	def _get_spawn_position(self):
-		x = randint(1, 4)
-		y = randint(1, 4)
+		x = settings.WORLD_WIDTH * 0.5  # randint(1, 4)
+		y = settings.WORLD_WIDTH * 0.5  # randint(1, 4)
 		return x, y
 
 	def read_top_scores(self):
