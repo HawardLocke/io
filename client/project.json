@@ -20,6 +20,7 @@
 		"src/status.js",
 		"src/baseobj.js",
 		"src/player.js",
+		"src/bullet.js",
 		"src/touchcontrol.js",
         "src/msghandler.js",
 		"src/msgsender.js"

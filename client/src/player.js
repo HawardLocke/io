@@ -8,6 +8,10 @@ var Player = BaseObj.extend({
 	type:0,
 	radius:20,
 
+	level:1,
+	enegy:0,
+	maxEnegy:100,
+
 	needSyncDirection:false,
 	targetDirX:0,
 	targetDirY:0,

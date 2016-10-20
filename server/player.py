@@ -28,6 +28,11 @@ class Player:
 		self.forcey = 0
 		self.max_speed = 1
 		self.needSyncPos = False
+
+		self.level = 1
+		self.enegy = 0
+		self.max_enegy = 100
+
 		# network delay
 		self.__ping_time = 0
 		self.__can_ping = True
@@ -73,6 +78,10 @@ class Player:
 			curtime = time.time()*1000
 			self.network_delay_time = ((self.__ping_count - 1) * self.network_delay_time + (curtime - self.__ping_time) * 0.5) / self.__ping_count
 			pass
+
+	def on_eat_enegy(self, enegy):
+		self.enegy += enegy
+		self.enegy = min(self.enegy, self.max_enegy)
 
 	def setposition(self, x, y):
 		self.x = x
