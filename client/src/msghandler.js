@@ -11,6 +11,7 @@ var MsgHandler = {
 		NetWork.registHandler(MsgType.scMove, this.onPlayerMove);
 		NetWork.registHandler(MsgType.scPlayerInfo, this.onPlayerInfo);
 		NetWork.registHandler(MsgType.scPing, this.onPing);
+		NetWork.registHandler(MsgType.scEnegyInfo, this.onEnegyInfo);
 	},
 
 	onError:function(args){
@@ -105,6 +106,15 @@ var MsgHandler = {
 		var clientTime = localDate.getTime();
 		Game.pingTime = clientTime;
 		MsgSender.ping(pingCount, clientTime);
+	},
+
+	onEnegyInfo:function(args){
+		//cc.log('on enegy info' + args);
+		var guid = args[1];
+		var x = args[2];
+		var y = args[3];
+		var enegy = args[4];
+		Game.addEnegy(guid, x, y, enegy);
 	}
 
 };

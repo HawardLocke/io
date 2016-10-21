@@ -3,6 +3,7 @@ import json
 
 import settings
 from player import Player
+from enegy import Enegy
 from datatypes import MsgType
 
 
@@ -12,11 +13,20 @@ class Game:
 		self._last_id = 0
 		self._players = {}
 		self._top_scores = []
+		self._enegyList = []
+		self._last_enegy_guid = 0
 
 	def get_players(self):
 		return self._players
 
 	def create_world(self):
+		for i in range(100):
+			self._last_enegy_guid += 1
+			guid = self._last_enegy_guid
+			x = settings.WORLD_WIDTH * 0.5 + randint(-100, 100) / (settings.WORLD_WIDTH * 0.5)
+			y = settings.WORLD_WIDTH * 0.5 + randint(-100, 100) / (settings.WORLD_WIDTH * 0.5)
+			enegy_inst = Enegy(guid, x, y, randint(1, 20))
+			self._enegyList.append(enegy_inst)
 		pass
 
 	def update_world(self, dt):
@@ -29,6 +39,8 @@ class Game:
 
 		self.send_personal(ws, MsgType.scNewPlayer, name, guid)
 		self.send_personal(ws, MsgType.scWorldInfo, settings.WORLD_WIDTH, settings.WORLD_HEIGHT)
+		for enegy in self._enegyList:
+			self.send_personal(ws, MsgType.scEnegyInfo, enegy.guid, enegy.x, enegy.y, enegy.enegy)
 
 		tp = randint(1, 9)
 		color = randint(0, 9)

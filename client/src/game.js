@@ -25,6 +25,8 @@ var Game = {
 	networkDelayTime:0,	// ms
 	pingTime:0,			// ms
 
+	enegyList:{},
+
 
 	init:function(){
 		this.statusMap[StateType.ST_ACCOUNT] = new StateAccount(gameScene);
@@ -113,6 +115,21 @@ var Game = {
 	calServerTimeNow:function(){
 		var localDate = new Date();
 		return Game.serverTime + (localDate.getTime() - Game.pingTime);
+	},
+
+	addEnegy:function(id, x, y, enegy){
+		if(this.enegyList[id] == undefined){
+			var inst = new Enegy(id, enegy);
+			this.enegyList[id] = inst;
+			inst.setPosition(x, y);
+			inst.onCreate();
+			return inst;
+		}
+		else{
+			inst = this.enegyList[id];
+			inst.setPosition(x, y);
+			inst.setEnegy(enegy);
+		}
 	}
 
 };

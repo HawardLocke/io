@@ -129,7 +129,7 @@ var StatePlay = StateBase.extend({
 		var minmapScale = minmapWidth / Game.worldWidth;
 		var minmapHeight = Game.worldHeight * minmapScale;
 		var myPlayerColor = cc.color(255, 0, 0, 255);
-		var otherPlayerColor = cc.color(255, 255, 0, 255);
+		var otherPlayerColor = cc.color(0, 0, 255, 255);
 		this.minmap.clear();
 		this.minmap.drawRect(cc.p(-0.5*minmapWidth,-0.5*minmapHeight), cc.p(0.5*minmapWidth,0.5*minmapHeight), cc.color(0,255,0,20), 2, cc.color(0, 255, 0, 0));
 		for(var id in Game.playerList){
@@ -137,9 +137,15 @@ var StatePlay = StateBase.extend({
 			var x = (player.getPositionX() - 0.5*Game.worldWidth) * minmapScale;
 			var y = (player.getPositionY() - 0.5*Game.worldHeight) * minmapScale;
 			if (player.id == Game.myPlayerGuid)
-				this.minmap.drawDot(cc.p(x, y), 2, myPlayerColor);
+				this.minmap.drawDot(cc.p(x, y), 4, myPlayerColor);
 			else
-				this.minmap.drawDot(cc.p(x, y), 2, otherPlayerColor);
+				this.minmap.drawDot(cc.p(x, y), 4, otherPlayerColor);
+		}
+		for(var id in Game.enegyList){
+			var enegy = Game.enegyList[id];
+			var x = (enegy.getPositionX() - 0.5*Game.worldWidth) * minmapScale;
+			var y = (enegy.getPositionY() - 0.5*Game.worldHeight) * minmapScale;
+			this.minmap.drawDot(cc.p(x, y), 1, cc.color(0, 255, 0, 255));
 		}
 	}
 

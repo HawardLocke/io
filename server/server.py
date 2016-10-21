@@ -61,6 +61,7 @@ event_loop.set_debug(True)
 app = web.Application()
 
 app["game"] = Game()
+app["game"].create_world()
 app["msghandler"] = MsgHandler(app["game"])
 app["msghandler"].regist_all()
 app["msgsender"] = MsgSender(app["game"])

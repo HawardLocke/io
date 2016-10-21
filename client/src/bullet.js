@@ -1,5 +1,0 @@
-
-
-var Bullet = BaseObj.extend({
-
-});

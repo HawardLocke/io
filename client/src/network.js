@@ -67,6 +67,7 @@ var MsgType = {
 	scDeletePlayer:2004,
 	scMove:2005,
 	scPlayerInfo:2006,
-	scPing:2007
+	scPing:2007,
+	scEnegyInfo:2008
 };
 

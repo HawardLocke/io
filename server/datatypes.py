@@ -15,4 +15,5 @@ class MsgType:
 	scMove = 2005
 	scPlayerInfo = 2006
 	scPing = 2007
+	scEnegyInfo = 2008
 
