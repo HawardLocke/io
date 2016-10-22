@@ -91,6 +91,9 @@ class Player:
 		self.vx = x
 		self.vy = y
 
+	def add_enegy(self, enegy):
+		self.enegy += enegy
+
 	def get_basic_info(self):
 		return json.dumps([MsgType.scPlayerInfo, self.guid, self.name, self.tp, self.x, self.y, self.color])
 

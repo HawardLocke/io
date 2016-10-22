@@ -3,7 +3,7 @@ import json
 
 import settings
 from player import Player
-from enegy import Enegy
+from enegyball import EnegyBall
 from datatypes import MsgType
 
 
@@ -13,7 +13,7 @@ class Game:
 		self._last_id = 0
 		self._players = {}
 		self._top_scores = []
-		self._enegyList = []
+		self._enegyBallList = {}
 		self._last_enegy_guid = 0
 
 	def get_players(self):
@@ -25,8 +25,8 @@ class Game:
 			guid = self._last_enegy_guid
 			x = settings.WORLD_WIDTH * 0.5 + randint(-100, 100) / (settings.WORLD_WIDTH * 0.5)
 			y = settings.WORLD_WIDTH * 0.5 + randint(-100, 100) / (settings.WORLD_WIDTH * 0.5)
-			enegy_inst = Enegy(guid, x, y, randint(1, 20))
-			self._enegyList.append(enegy_inst)
+			enegy_inst = EnegyBall(guid, x, y, randint(1, 20))
+			self._enegyBallList[guid] = enegy_inst
 		pass
 
 	def update_world(self, dt):
@@ -39,7 +39,7 @@ class Game:
 
 		self.send_personal(ws, MsgType.scNewPlayer, name, guid)
 		self.send_personal(ws, MsgType.scWorldInfo, settings.WORLD_WIDTH, settings.WORLD_HEIGHT)
-		for enegy in self._enegyList:
+		for enegy in self._enegyBallList.values():
 			self.send_personal(ws, MsgType.scEnegyInfo, enegy.guid, enegy.x, enegy.y, enegy.enegy)
 
 		tp = randint(1, 9)
@@ -117,3 +117,14 @@ class Game:
 			if player.ws:
 				player.ws.send_str(msg)
 
+	def on_eat_enegy_ball(self, player, ballid):
+		ball_id = int(ballid)
+		# print('on eat %d' % ball_id)
+		if ball_id in self._enegyBallList:
+			ball = self._enegyBallList[ball_id]
+			enegy_value = ball.enegy
+			player.add_enegy(enegy_value)
+			del self._enegyBallList[ball_id]
+			self.send_all(MsgType.scEnegyChange, player.guid, enegy_value)
+			self.send_all(MsgType.scEatEnegyBall, player.guid, ball_id)
+		pass

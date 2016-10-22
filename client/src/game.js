@@ -25,7 +25,7 @@ var Game = {
 	networkDelayTime:0,	// ms
 	pingTime:0,			// ms
 
-	enegyList:{},
+	enegyBallList:{},
 
 
 	init:function(){
@@ -117,19 +117,46 @@ var Game = {
 		return Game.serverTime + (localDate.getTime() - Game.pingTime);
 	},
 
-	addEnegy:function(id, x, y, enegy){
-		if(this.enegyList[id] == undefined){
-			var inst = new Enegy(id, enegy);
-			this.enegyList[id] = inst;
+	addEnegyBall:function(id, x, y, enegy){
+		if(this.enegyBallList[id] == undefined){
+			var inst = new EnegyBall(id, enegy);
+			this.enegyBallList[id] = inst;
 			inst.setPosition(x, y);
 			inst.onCreate();
 			return inst;
 		}
 		else{
-			inst = this.enegyList[id];
+			inst = this.enegyBallList[id];
 			inst.setPosition(x, y);
 			inst.setEnegy(enegy);
 		}
+	},
+
+	removeEnegyBall:function(id){
+		var inst = this.enegyBallList[id];
+		if (inst instanceof EnegyBall){
+			inst.onDestroy();
+			delete this.enegyBallList[id];
+		}
+	},
+
+	getEnegyBall:function(id){
+		return this.enegyBallList[id];
+	},
+
+	getNearbyEnegyBall:function(x, y, radius){
+		var ballIds = [];
+		var index = 0;
+		for(var id in this.enegyBallList){
+			var ball = this.enegyBallList[id];
+			var dx = Math.abs(ball.getPositionX() - x);
+			var dy = Math.abs(ball.getPositionY() - y);
+			if (dx < radius && dy < radius) {
+				ballIds[index] = id;
+				index++;
+			}
+		}
+		return ballIds;
 	}
 
 };

@@ -8,6 +8,8 @@ var Player = BaseObj.extend({
 	type:0,
 	radius:20,
 
+	isLocalPlayer:false,
+
 	level:1,
 	enegy:0,
 	maxEnegy:100,
@@ -61,6 +63,7 @@ var Player = BaseObj.extend({
 	onUpdate:function(dt){
 		this._super(dt);
 		this._updateRotate(dt);
+		this._checkEatEnegyBall();
 	},
 
 	setRotation:function(angle){
@@ -90,6 +93,14 @@ var Player = BaseObj.extend({
 			this.targetDirX = dirx;
 			this.targetDirY = diry;
 		}
+	},
+
+	_checkEatEnegyBall:function(){
+		var ballIds = Game.getNearbyEnegyBall(this.x, this.y, 0.3);
+		for(var id in ballIds){
+			MsgSender.eatEnegyBall(ballIds[id]);
+		}
+		//cc.log('send eat ' + ballIds.toString());
 	}
 
 });

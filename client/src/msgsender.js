@@ -22,6 +22,10 @@ var MsgSender = {
 
 	ping:function(pingCount, clientTime){
 		NetWork.sendMessage([MsgType.csPing, pingCount, clientTime])
+	},
+
+	eatEnegyBall:function(ballId){
+		NetWork.sendMessage([MsgType.csEatEnegyBall, ballId])
 	}
 
 };

@@ -20,7 +20,7 @@
 		"src/status.js",
 		"src/baseobj.js",
 		"src/player.js",
-		"src/enegy.js",
+		"src/enegyball.js",
 		"src/touchcontrol.js",
         "src/msghandler.js",
 		"src/msgsender.js"

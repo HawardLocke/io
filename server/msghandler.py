@@ -21,6 +21,7 @@ class MsgHandler:
 		self.regist(MsgType.csJoin, on_join)
 		self.regist(MsgType.csMove, on_playermove)
 		self.regist(MsgType.csPing, on_ping)
+		self.regist(MsgType.csEatEnegyBall, on_eat_enegy_ball)
 
 	def on_msg(self, player, ws, data):
 		cmd = data
@@ -60,3 +61,8 @@ def on_ping(player, ws, args):
 	server_time = args[1]
 	client_time = args[2]
 	player.on_ping(server_time, client_time)
+
+
+def on_eat_enegy_ball(player, ws, args):
+	ballid = args[1]
+	MsgHandler.game.on_eat_enegy_ball(player, ballid)

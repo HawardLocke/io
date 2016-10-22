@@ -6,6 +6,8 @@ class MsgType:
 	csJoin = 1002
 	csMove = 1003
 	csPing = 1004
+	csEatEnegyBall = 1005
+	csShoot = 1006
 	# s->c
 	scError = 2000
 	scNewPlayer = 2001
@@ -16,4 +18,7 @@ class MsgType:
 	scPlayerInfo = 2006
 	scPing = 2007
 	scEnegyInfo = 2008
+	scEatEnegyBall = 2009
+	scEnegyChange = 2010
+	scShoot = 2011
 

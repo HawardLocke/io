@@ -1,6 +1,6 @@
 
 
-var Enegy = BaseObj.extend({
+var EnegyBall = BaseObj.extend({
 
 	enegy:0,
 
@@ -16,6 +16,10 @@ var Enegy = BaseObj.extend({
 
 	setEnegy:function(enegy){
 		this.enegy = enegy;
+	},
+
+	flyTo:function(x, y){
+		Game.removeEnegyBall(this.id);
 	}
 
 });

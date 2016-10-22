@@ -12,6 +12,9 @@ var MsgHandler = {
 		NetWork.registHandler(MsgType.scPlayerInfo, this.onPlayerInfo);
 		NetWork.registHandler(MsgType.scPing, this.onPing);
 		NetWork.registHandler(MsgType.scEnegyInfo, this.onEnegyInfo);
+		NetWork.registHandler(MsgType.scEatEnegyBall, this.onEatEnegyBall);
+		NetWork.registHandler(MsgType.scEnegyChange, this.onEnegyChange);
+		NetWork.registHandler(MsgType.scShoot, this.onShoot);
 	},
 
 	onError:function(args){
@@ -37,6 +40,7 @@ var MsgHandler = {
 		var playerInst = Game.addPlayer(guid, name, tp, x, y, color);
 		if (Game.myPlayerGuid === guid){
 			Game.myPlayerInst = playerInst;
+			playerInst.isLocalPlayer = true;
 		}
 	},
 
@@ -114,7 +118,30 @@ var MsgHandler = {
 		var x = args[2];
 		var y = args[3];
 		var enegy = args[4];
-		Game.addEnegy(guid, x, y, enegy);
+		Game.addEnegyBall(guid, x, y, enegy);
+	},
+
+	onEatEnegyBall:function(args){
+		var playerId = args[1];
+		var ballId = args[2];
+		var playerInst = Game.getPlayer(playerId);
+		var enegyBall = Game.getEnegyBall(ballId);
+		cc.log('recv eat ' + ballId);
+		enegyBall.flyTo(playerInst.getPositionX(), playerInst.getPositionY());
+		if (playerId == Game.myPlayerGuid){
+
+		}else{
+
+		}
+	},
+
+	onEnegyChange:function(args){
+		var playerId = args[1];
+		var enegy = args[2];
+	},
+
+	onShoot:function(args){
+
 	}
 
 };

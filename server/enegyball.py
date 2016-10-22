@@ -1,6 +1,6 @@
 
 
-class Enegy:
+class EnegyBall:
 
 	def __init__(self, guid, x, y, enegy):
 		self.guid = guid
