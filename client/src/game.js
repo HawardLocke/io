@@ -26,6 +26,7 @@ var Game = {
 	pingTime:0,			// ms
 
 	enegyBallList:{},
+	bulletList:{},
 
 
 	init:function(){
@@ -89,6 +90,9 @@ var Game = {
 			for(var id in this.playerList){
 				this.playerList[id].onUpdate(dt);
 			}
+			for(var bid in this.bulletList){
+				this.bulletList[bid].onUpdate(dt);
+			}
 		}
 		for(var id in this.deletePlayerList){
 			this.deletePlayerList[id].onDestroy();
@@ -146,17 +150,45 @@ var Game = {
 
 	getNearbyEnegyBall:function(x, y, radius){
 		var ballIds = [];
-		var index = 0;
 		for(var id in this.enegyBallList){
 			var ball = this.enegyBallList[id];
 			var dx = Math.abs(ball.getPositionX() - x);
 			var dy = Math.abs(ball.getPositionY() - y);
 			if (dx < radius && dy < radius) {
-				ballIds[index] = id;
-				index++;
+				ballIds.push(id);
 			}
 		}
 		return ballIds;
+	},
+
+	addBullet:function(bulletId,playerId,level,timeStamp,x,y,vx,vy){
+		if(this.bulletList[bulletId] == undefined){
+			var inst = new Bullet(bulletId,level);
+			this.bulletList[bulletId] = inst;
+			inst.setPosition(x, y);
+			inst.setVelocity(vx, vy);
+			inst.setForce(vx, vy);
+			inst.onCreate();
+			return inst;
+		}
+		else{
+			inst = this.bulletList[bulletId];
+			inst.setPosition(x, y);
+			inst.setVelocity(vx, vy);
+			return inst;
+		}
+	},
+
+	removeBullet:function(id){
+		var inst = this.bulletList[id];
+		if (inst instanceof Bullet){
+			inst.onDestroy();
+			delete this.bulletList[id];
+		}
+	},
+
+	getBullet:function(id){
+		return this.bulletList[id];
 	}
 
 };

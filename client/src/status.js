@@ -141,8 +141,8 @@ var StatePlay = StateBase.extend({
 			else
 				this.minmap.drawDot(cc.p(x, y), 4, otherPlayerColor);
 		}
-		for(var id in Game.enegyList){
-			var enegy = Game.enegyList[id];
+		for(var id in Game.enegyBallList){
+			var enegy = Game.enegyBallList[id];
 			var x = (enegy.getPositionX() - 0.5*Game.worldWidth) * minmapScale;
 			var y = (enegy.getPositionY() - 0.5*Game.worldHeight) * minmapScale;
 			this.minmap.drawDot(cc.p(x, y), 1, cc.color(0, 255, 0, 255));

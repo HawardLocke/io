@@ -4,6 +4,7 @@ import json
 import settings
 from player import Player
 from enegyball import EnegyBall
+from bullet import Bullet
 from datatypes import MsgType
 
 
@@ -15,6 +16,8 @@ class Game:
 		self._top_scores = []
 		self._enegyBallList = {}
 		self._last_enegy_guid = 0
+		self._bullet_list = {}
+		self._last_bullet_guid = 0
 
 	def get_players(self):
 		return self._players
@@ -25,7 +28,7 @@ class Game:
 			guid = self._last_enegy_guid
 			x = settings.WORLD_WIDTH * 0.5 + randint(-100, 100) / (settings.WORLD_WIDTH * 0.5)
 			y = settings.WORLD_WIDTH * 0.5 + randint(-100, 100) / (settings.WORLD_WIDTH * 0.5)
-			enegy_inst = EnegyBall(guid, x, y, randint(1, 20))
+			enegy_inst = EnegyBall(guid, x, y, randint(5, 20))
 			self._enegyBallList[guid] = enegy_inst
 		pass
 
@@ -39,8 +42,6 @@ class Game:
 
 		self.send_personal(ws, MsgType.scNewPlayer, name, guid)
 		self.send_personal(ws, MsgType.scWorldInfo, settings.WORLD_WIDTH, settings.WORLD_HEIGHT)
-		for enegy in self._enegyBallList.values():
-			self.send_personal(ws, MsgType.scEnegyInfo, enegy.guid, enegy.x, enegy.y, enegy.enegy)
 
 		tp = randint(1, 9)
 		color = randint(0, 9)
@@ -61,7 +62,10 @@ class Game:
 		player.join(x, y)
 		player.force_ping()
 		self.send_all(MsgType.scJoined, player.guid, player.name, player.tp, x, y, player.color)
+		for enegy in self._enegyBallList.values():
+			self.send_personal(ws, MsgType.scEnegyInfo, enegy.guid, enegy.x, enegy.y, enegy.enegy)
 		self.send_nearby_players_info_to(player)
+		self.send_nearby_bullet_info_to(player)
 		print('player %s joins.' % player.name)
 
 	def player_disconnected(self, player):
@@ -128,3 +132,24 @@ class Game:
 			self.send_all(MsgType.scEnegyChange, player.guid, enegy_value)
 			self.send_all(MsgType.scEatEnegyBall, player.guid, ball_id)
 		pass
+
+	def on_shoot_bullet(self, player, timestamp, x, y, dirx, diry):
+		cost = settings.SHOOT_COST_ENEGY
+		if player.enegy < cost:
+			return
+		player.add_enegy(-cost)
+		self._last_bullet_guid += 1
+		guid = self._last_bullet_guid
+		level = 1
+		vx = dirx * settings.BULLET_SPEED
+		vy = diry * settings.BULLET_SPEED
+		inst = Bullet(guid, player.guid, level, timestamp, x, y, vx, vy)
+		self._bullet_list[guid] = inst
+		self.send_all(MsgType.scEnegyChange, player.guid, -cost)
+		self.send_personal(player.ws, MsgType.scShoot)
+		self.send_all(MsgType.scBulletInfo, guid, player.guid, level, timestamp, x, y, vx, vy)
+		pass
+
+	def send_nearby_bullet_info_to(self, player):
+		for inst in self._bullet_list.values():
+			player.ws.send_str(inst.get_basic_info())

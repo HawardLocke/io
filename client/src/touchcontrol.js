@@ -109,6 +109,19 @@ var TouchControl = {
 		var vec = new cc.math.Vec2(dx,dy);
 		vec.normalize();
 		Game.myPlayerInst.setTargetDirection(vec.x,vec.y);
+	},
+
+	onMouseUp:function(x,y){
+		if(Game.myPlayerInst == null)
+			return;
+
+		var dx = x - cc.winSize.width * 0.5;
+		var dy = y - cc.winSize.height * 0.5;
+		var vec = new cc.math.Vec2(dx,dy);
+		vec.normalize();
+		var px = Game.myPlayerInst.getPositionX();
+		var py = Game.myPlayerInst.getPositionY();
+		MsgSender.shoot(px, py, vec.x, vec.y);
 	}
 
 };

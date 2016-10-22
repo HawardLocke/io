@@ -104,6 +104,7 @@ var GameScene = cc.Scene.extend({
 	},
 	onMouseUp:function(event){
 		//var str = "Mouse Up detected, Key: " + event.getButton();
+		TouchControl.onMouseUp(event.getLocationX(), event.getLocationY());
 	},
 	onMouseDown:function(event){
 		//var str = "Mouse Down detected, Key: " + event.getButton();

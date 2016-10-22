@@ -22,6 +22,7 @@ class MsgHandler:
 		self.regist(MsgType.csMove, on_playermove)
 		self.regist(MsgType.csPing, on_ping)
 		self.regist(MsgType.csEatEnegyBall, on_eat_enegy_ball)
+		self.regist(MsgType.csShoot, on_shoot)
 
 	def on_msg(self, player, ws, data):
 		cmd = data
@@ -66,3 +67,12 @@ def on_ping(player, ws, args):
 def on_eat_enegy_ball(player, ws, args):
 	ballid = args[1]
 	MsgHandler.game.on_eat_enegy_ball(player, ballid)
+
+
+def on_shoot(player, ws, args):
+	timestamp = args[1]
+	x = args[2]
+	y = args[3]
+	dirx = args[4]
+	diry = args[5]
+	MsgHandler.game.on_shoot_bullet(player, timestamp, x, y, dirx, diry)

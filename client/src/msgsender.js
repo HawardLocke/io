@@ -26,6 +26,11 @@ var MsgSender = {
 
 	eatEnegyBall:function(ballId){
 		NetWork.sendMessage([MsgType.csEatEnegyBall, ballId])
+	},
+
+	shoot:function(x, y, dirx, diry){
+		var timeStamp = Game.calServerTimeNow();
+		NetWork.sendMessage([MsgType.csShoot, timeStamp, x, y, dirx, diry])
 	}
 
 };

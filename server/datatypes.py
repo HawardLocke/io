@@ -21,4 +21,5 @@ class MsgType:
 	scEatEnegyBall = 2009
 	scEnegyChange = 2010
 	scShoot = 2011
+	scBulletInfo = 2012
 

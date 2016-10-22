@@ -15,6 +15,7 @@ var MsgHandler = {
 		NetWork.registHandler(MsgType.scEatEnegyBall, this.onEatEnegyBall);
 		NetWork.registHandler(MsgType.scEnegyChange, this.onEnegyChange);
 		NetWork.registHandler(MsgType.scShoot, this.onShoot);
+		NetWork.registHandler(MsgType.scBulletInfo, this.onBulletInfo);
 	},
 
 	onError:function(args){
@@ -126,10 +127,10 @@ var MsgHandler = {
 		var ballId = args[2];
 		var playerInst = Game.getPlayer(playerId);
 		var enegyBall = Game.getEnegyBall(ballId);
-		cc.log('recv eat ' + ballId);
+		//cc.log('recv eat ' + ballId);
 		enegyBall.flyTo(playerInst.getPositionX(), playerInst.getPositionY());
 		if (playerId == Game.myPlayerGuid){
-
+			playerInst.onEatEnegyBall(ballId);
 		}else{
 
 		}
@@ -138,10 +139,41 @@ var MsgHandler = {
 	onEnegyChange:function(args){
 		var playerId = args[1];
 		var enegy = args[2];
+		var playerInst = Game.getPlayer(playerId);
+		playerInst.changeEnegy(enegy);
+		if (playerId == Game.myPlayerGuid){
+
+		}else{
+
+		}
+	},
+
+	onBulletInfo:function(args){
+		var bulletId = args[1];
+		var playerId = args[2];
+		var level = args[3];
+		var timeStamp = args[4];
+		var x = args[5];
+		var y = args[6];
+		var vx = args[7];
+		var vy = args[8];
+
+		var curTime = Game.calServerTimeNow();
+		var dt = (curTime - timeStamp)/1000;
+		var dx = vx * dt;
+		var dy = vy * dt;
+		x += dx;
+		y += dy;
+		cc.log('bullet (' + x + ', ' + y + '), (' + vx + ', ' + vy + ')');
+
+		Game.addBullet(bulletId,playerId,level,timeStamp,x,y,vx,vy);
 	},
 
 	onShoot:function(args){
-
+		/*var bulletId = args[1];
+		var playerId = args[2];
+		var dirx = args[3];
+		var diry = args[4];*/
 	}
 
 };
