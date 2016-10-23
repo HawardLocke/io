@@ -164,7 +164,7 @@ var MsgHandler = {
 		var dy = vy * dt;
 		x += dx;
 		y += dy;
-		cc.log('bullet (' + x + ', ' + y + '), (' + vx + ', ' + vy + ')');
+		//cc.log('bullet (' + x + ', ' + y + '), (' + vx + ', ' + vy + ')');
 
 		Game.addBullet(bulletId,playerId,level,timeStamp,x,y,vx,vy);
 	},

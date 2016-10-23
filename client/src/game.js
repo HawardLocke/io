@@ -16,6 +16,7 @@ var Game = {
 	worldWidth:0,
 	worldHeight:0,
 
+	playerCount:0,
 	playerList:{},
 	deletePlayerList:{},
 	myPlayerGuid:0,
@@ -26,7 +27,9 @@ var Game = {
 	pingTime:0,			// ms
 
 	enegyBallList:{},
+	bulletCount:0,
 	bulletList:{},
+	deleteBulletList:[],
 
 
 	init:function(){
@@ -61,9 +64,10 @@ var Game = {
 		if(this.playerList[id] == undefined){
 			var player = new Player(id, name, tp, color);
 			this.playerList[id] = player;
+			this.playerCount ++;
 			player.setPosition(x, y);
 			player.onCreate();
-			cc.log('add player: ' + name);
+			//cc.log('add player: ' + name);
 			return player;
 		}
 		else{
@@ -78,6 +82,7 @@ var Game = {
 		if (player instanceof Player){
 			this.deletePlayerList[id] = player;
 			delete this.playerList[id];
+			this.playerCount --;
 		}
 	},
 
@@ -101,6 +106,18 @@ var Game = {
 		if(this.myPlayerInst != null) {
 			Game.lookAtPlayer(this.myPlayerInst);
 		}
+
+		for(bid in this.bulletList){
+			if(this.bulletList[bid].isDead)
+				this.deleteBulletList.push(bid);
+		}
+		if(this.deleteBulletList.length > 0){
+			for(bid in this.deleteBulletList){
+				this.removeBullet(this.deleteBulletList[bid]);
+			}
+			this.deleteBulletList.length = 0;
+		}
+
 		this._updateState(dt);
 	},
 
@@ -163,8 +180,9 @@ var Game = {
 
 	addBullet:function(bulletId,playerId,level,timeStamp,x,y,vx,vy){
 		if(this.bulletList[bulletId] == undefined){
-			var inst = new Bullet(bulletId,level);
+			var inst = new Bullet(bulletId,level,timeStamp);
 			this.bulletList[bulletId] = inst;
+			this.bulletCount ++;
 			inst.setPosition(x, y);
 			inst.setVelocity(vx, vy);
 			inst.setForce(vx, vy);
@@ -184,6 +202,7 @@ var Game = {
 		if (inst instanceof Bullet){
 			inst.onDestroy();
 			delete this.bulletList[id];
+			this.bulletCount --;
 		}
 	},
 

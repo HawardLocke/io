@@ -3,7 +3,6 @@ import asyncio
 import json
 from aiohttp import web
 import time
-import datetime
 
 import settings
 from game import Game
@@ -42,9 +41,15 @@ async def wshandler(request):
 	return ws
 
 async def game_loop(game):
+	print("\n>>>>>>>>>>>>>>>>>>>")
+	print("Server starts !")
+	print("World size : %d x %d" % (settings.WORLD_WIDTH, settings.WORLD_HEIGHT))
+	print("Max players : %d" % settings.MAX_PLAYERS)
+	print("FPS : %d" % settings.GAME_SPEED)
+	print("Enter looping...")
+
 	tick = 1./settings.GAME_SPEED
 	lasttick = time.clock()
-	print("start looping, fps is %d." % settings.GAME_SPEED)
 	while 1:
 		curtick = time.clock()
 		dt = curtick - lasttick
@@ -53,7 +58,10 @@ async def game_loop(game):
 			continue
 		game.update_world(dt)
 		lasttick = curtick
-	print("end looping")
+
+	print("Exit looping")
+	print(">>>>>>>>>>>>>>>>>>>\n")
+	pass
 
 event_loop = asyncio.get_event_loop()
 event_loop.set_debug(True)

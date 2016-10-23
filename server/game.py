@@ -18,6 +18,7 @@ class Game:
 		self._last_enegy_guid = 0
 		self._bullet_list = {}
 		self._last_bullet_guid = 0
+		self._dead_bullet_list = []
 
 	def get_players(self):
 		return self._players
@@ -33,8 +34,18 @@ class Game:
 		pass
 
 	def update_world(self, dt):
-		for player in self._players.values():
-			player.update(dt)
+		for k in self._players:
+			self._players[k].update(dt)
+		for k in self._bullet_list:
+			bullet = self._bullet_list[k]
+			bullet.update(dt)
+			if bullet.is_dead:
+				self._dead_bullet_list.append(k)
+		for k in self._dead_bullet_list:
+			if k in self._bullet_list:
+				del self._bullet_list[k]
+		if len(self._dead_bullet_list) > 0:
+			self._dead_bullet_list.clear()
 
 	def new_player(self, name, seed, ws):
 		self._last_id += 1

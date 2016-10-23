@@ -66,10 +66,13 @@ var StateAccount = StateBase.extend({
 
 var StatePlay = StateBase.extend({
 
+	labelCount:0,
 	delayLabel:null,
 	forceLabel:null,
 	speedLabel:null,
 	serverTimeLabel:null,
+	bulletsLabel:null,
+	playersLabel:null,
 	minmap:null,
 
 	onEnter:function(){
@@ -77,32 +80,16 @@ var StatePlay = StateBase.extend({
 
 		gameScene.getWorldLayer().setVisible(true);
 
-		var lineHeight = 20;
-
-		var windowSize = cc.winSize;
-		this.delayLabel = new cc.LabelTTF("delay:--", "Arial", 14);
-		this.delayLabel.x = windowSize.width - 100;
-		this.delayLabel.y = lineHeight;
-		this.node.addChild(this.delayLabel, 5);
-
-		this.forceLabel = new cc.LabelTTF("force:--", "Arial", 14);
-		this.forceLabel.x = windowSize.width - 100;
-		this.forceLabel.y = lineHeight*2;
-		this.node.addChild(this.forceLabel, 5);
-
-		this.speedLabel = new cc.LabelTTF("speed:--", "Arial", 14);
-		this.speedLabel.x = windowSize.width - 100;
-		this.speedLabel.y = lineHeight*3;
-		this.node.addChild(this.speedLabel, 5);
-
-		this.serverTimeLabel = new cc.LabelTTF("server:--", "Arial", 14);
-		this.serverTimeLabel.x = windowSize.width - 100;
-		this.serverTimeLabel.y = lineHeight*4;
-		this.node.addChild(this.serverTimeLabel, 5);
+		this.delayLabel = this.appendLabel();
+		this.forceLabel = this.appendLabel();
+		this.speedLabel = this.appendLabel();
+		this.serverTimeLabel = this.appendLabel();
+		this.bulletsLabel = this.appendLabel();
+		this.playersLabel = this.appendLabel();
 
 		this.minmap = new cc.DrawNode();
-		this.minmap.x = windowSize.width - 110;
-		this.minmap.y = windowSize.height - 110;
+		this.minmap.x = cc.winSize.width - 110;
+		this.minmap.y = cc.winSize.height - 110;
 		this.node.addChild(this.minmap, 5);
 
 		MsgSender.join();
@@ -114,8 +101,7 @@ var StatePlay = StateBase.extend({
 
 	onUpdate:function(dt){
 		this.delayLabel.setString("delay : " + Math.floor(Game.networkDelayTime+0.5) + " ms");
-		this.serverTimeLabel.setString("server : " + Math.floor(Game.serverTime/1000) + " s");
-
+		this.serverTimeLabel.setString("time : " + Math.floor(Game.serverTime/1000) + " s");
 		if(Game.myPlayerInst != null)
 		{
 			this.forceLabel.setString("force : "
@@ -123,6 +109,8 @@ var StatePlay = StateBase.extend({
 			this.speedLabel.setString("speed : "
 				+ Game.myPlayerInst.getVelocityX().toFixed(2) + ", " + Game.myPlayerInst.getVelocityY().toFixed(2));
 		}
+		this.bulletsLabel.setString("bullets : " + Game.bulletCount);
+		this.playersLabel.setString("players : " + Game.playerCount);
 
 		// minmap
 		var minmapWidth = 200;
@@ -141,12 +129,22 @@ var StatePlay = StateBase.extend({
 			else
 				this.minmap.drawDot(cc.p(x, y), 4, otherPlayerColor);
 		}
-		for(var id in Game.enegyBallList){
+		for(id in Game.enegyBallList){
 			var enegy = Game.enegyBallList[id];
-			var x = (enegy.getPositionX() - 0.5*Game.worldWidth) * minmapScale;
-			var y = (enegy.getPositionY() - 0.5*Game.worldHeight) * minmapScale;
+			x = (enegy.getPositionX() - 0.5*Game.worldWidth) * minmapScale;
+			y = (enegy.getPositionY() - 0.5*Game.worldHeight) * minmapScale;
 			this.minmap.drawDot(cc.p(x, y), 1, cc.color(0, 255, 0, 255));
 		}
+	},
+
+	appendLabel:function(){
+		var lineHeight = 20;
+		this.labelCount ++;
+		var label = new cc.LabelTTF("new label", "Arial", 14);
+		label.x = cc.winSize.width - 100;
+		label.y = lineHeight * this.labelCount;
+		this.node.addChild(label, 5);
+		return label;
 	}
 
 });

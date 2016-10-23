@@ -6,10 +6,15 @@ var Bullet = BaseObj.extend({
 	level:1,
 	spawnTime:0,
 
-	ctor:function(id, level){
+	speed:0,
+	maxPersistTime:1,	// seconds
+	isDead:false,
+
+	ctor:function(id, level, timeStamp){
 		this._super();
 		this.id = id;
 		this.level = level;
+		this.spawnTime = timeStamp;
 
 		var draw = new cc.DrawNode();
 		draw.drawDot(cc.p(0,0), 4, cc.color(255,0,0,255));
@@ -36,9 +41,37 @@ var Bullet = BaseObj.extend({
 		this.x = Math.max(this.x, 0);
 		this.y = Math.min(this.y, Game.worldHeight);
 		this.y = Math.max(this.y, 0);
-
 		this.setPosition(this.x, this.y);
+
+		// check disappear.
+		if (!this.isDead){
+			var curTime = Game.calServerTimeNow();
+			if (curTime > this.spawnTime + this.maxPersistTime * 1000){
+				this.isDead = true;
+				cc.log('is dead, ' + curTime + ', ' + this.spawnTime + ', ' + this.maxPersistTime * 1000 )
+			}
+		}
+
+	},
+
+	setVelocity:function(x, y){
+		this._super(x, y);
+		this.speed = (new cc.math.Vec2(x,y)).length();
+		this.maxPersistTime = this.getShootDistance() / this.speed;
+		cc.log('persist '+this.maxPersistTime);
+	},
+
+	getShootDistance:function(){
+		var dist = 1;
+		if(this.level == 1)
+			dist = 8;
+		else if(this.level == 2)
+			dist = 9;
+		else
+			dist = 10;
+		return dist;
 	}
 
 
 });
+
