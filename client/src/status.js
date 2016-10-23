@@ -125,15 +125,15 @@ var StatePlay = StateBase.extend({
 			var x = (player.getPositionX() - 0.5*Game.worldWidth) * minmapScale;
 			var y = (player.getPositionY() - 0.5*Game.worldHeight) * minmapScale;
 			if (player.id == Game.myPlayerGuid)
-				this.minmap.drawDot(cc.p(x, y), 4, myPlayerColor);
+				this.minmap.drawDot(cc.p(x, y), 3, myPlayerColor);
 			else
-				this.minmap.drawDot(cc.p(x, y), 4, otherPlayerColor);
+				this.minmap.drawDot(cc.p(x, y), 3, otherPlayerColor);
 		}
 		for(id in Game.enegyBallList){
 			var enegy = Game.enegyBallList[id];
 			x = (enegy.getPositionX() - 0.5*Game.worldWidth) * minmapScale;
 			y = (enegy.getPositionY() - 0.5*Game.worldHeight) * minmapScale;
-			this.minmap.drawDot(cc.p(x, y), 1, cc.color(0, 255, 0, 255));
+			this.minmap.drawDot(cc.p(x, y), 1, cc.color(255, 255, 0, 255));
 		}
 	},
 

@@ -6,7 +6,9 @@ var Player = BaseObj.extend({
 	id:0,
 	name:"no name",
 	type:0,
-	radius:20,
+	radius:10,
+	rotationAngle:0,
+	rotationVector:{x:1,y:0},
 
 	isLocalPlayer:false,
 
@@ -23,21 +25,28 @@ var Player = BaseObj.extend({
 
 	enegyBalls_TryEat:[],
 
+	// body weapon
+	gunLength:0,	// length from body to fire point
+
+
 	ctor:function(id, name, type, color){
 		this._super();
 		this.id = id;
 		this.name = name;
 		this.type = type;
 
-		this.radius = 30;
-		var segment = this.radius*3;
+		this.radius = Setting.minPlayerSize;
+
+		var renderRadius = this.radius * Setting.worldSizeRatio;
 
 		//var sprite = new cc.Sprite(res.dot_png);
 		//this.avatarBody.addChild(sprite, 0);
 
+		var segment = renderRadius*3;
+
 		var nameLabel = new cc.LabelTTF(this.name, "Arial", 14);
 		nameLabel.setColor(cc.color(255, 255, 255, 255));
-		nameLabel.setPositionY(this.radius + 5);
+		nameLabel.setPositionY(renderRadius + 5);
 		this.avatarRoot.addChild(nameLabel, 5);
 
 		this.enegyLabel = new cc.LabelTTF("0", "Arial", 14);
@@ -51,12 +60,13 @@ var Player = BaseObj.extend({
 
 		var draw = new cc.DrawNode();
 		//draw.drawDot(cc.p(0,0), this.radius, bodyColor);
-		draw.drawCircle(cc.p(0, 0), this.radius, 0, segment, false, lineWidth, bodyColor);
+		draw.drawCircle(cc.p(0, 0), renderRadius, 0, segment, false, lineWidth, bodyColor);
 		this.avatarBody.addChild(draw, 0);
 
-		var sawlen = this.radius * 3;
-		var sawwidth = this.radius * 0.3;
-		draw.drawRect(cc.p(this.radius,-sawwidth), cc.p(sawlen,sawwidth), cc.color(0,0,0,0), lineWidth, bodyColor);
+		var sawlen = renderRadius * 3;
+		this.gunLength = sawlen / Setting.worldSizeRatio;
+		var sawwidth = renderRadius * 0.3;
+		draw.drawRect(cc.p(renderRadius,-sawwidth), cc.p(sawlen,sawwidth), cc.color(0,0,0,0), lineWidth, bodyColor);
 
 	},
 
@@ -79,6 +89,7 @@ var Player = BaseObj.extend({
 	setRotation:function(angle){
 		if(this.avatarBody != null)
 			this.avatarBody.setRotation(angle);
+		this.rotationAngle = angle;
 	},
 
 	setForce:function(fx, fy){
@@ -86,6 +97,10 @@ var Player = BaseObj.extend({
 		var radians = -Math.atan2(fy, fx);
 		var degree = 180 * radians / io.PI;
 		this.setRotation(degree);
+		var vec = new cc.math.Vec2(fx,fy);
+		vec.normalize();
+		this.rotationVector.x = vec.x;
+		this.rotationVector.y = vec.y;
 	},
 
 	// private
@@ -105,6 +120,17 @@ var Player = BaseObj.extend({
 			this.targetDirX = dirx;
 			this.targetDirY = diry;
 		}
+	},
+
+	checkHitCollider:function(x,y){
+		var dx = Math.abs(this.x - x);
+		var dy = Math.abs(this.y - y);
+		if (dx < this.radius && dy < this.radius){
+			var dist = Math.sqrt(cc.math.square(dx) + cc.math.square(dy));
+			if (dist < this.radius)
+				return true;
+		}
+		return false;
 	},
 
 	_checkEatEnegyBall:function(){
@@ -147,6 +173,12 @@ var Player = BaseObj.extend({
 	onEatEnegyBall:function(ballId){
 
 		// may be some effect.
+	},
+
+	getFirePoint:function(){
+		var x = this.x + this.rotationVector.x * this.gunLength * 0.75;
+		var y = this.y + this.rotationVector.y * this.gunLength * 0.75;
+		return {"x":x, "y":y};
 	}
 
 });

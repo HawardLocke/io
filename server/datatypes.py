@@ -8,6 +8,7 @@ class MsgType:
 	csPing = 1004
 	csEatEnegyBall = 1005
 	csShoot = 1006
+	csHitPlayer = 1007
 	# s->c
 	scError = 2000
 	scNewPlayer = 2001
@@ -22,4 +23,5 @@ class MsgType:
 	scEnegyChange = 2010
 	scShoot = 2011
 	scBulletInfo = 2012
+	scHitPlayer = 2013
 

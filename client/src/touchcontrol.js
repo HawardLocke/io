@@ -121,7 +121,10 @@ var TouchControl = {
 		vec.normalize();
 		var px = Game.myPlayerInst.getPositionX();
 		var py = Game.myPlayerInst.getPositionY();
-		MsgSender.shoot(px, py, vec.x, vec.y);
+		//cc.log('pos '+px + ',' + py);
+		var pos = Game.myPlayerInst.getFirePoint();
+		//cc.log('fire '+pos.x + ", " + pos.y);
+		MsgSender.shoot(pos.x, pos.y, vec.x, vec.y);
 	}
 
 };

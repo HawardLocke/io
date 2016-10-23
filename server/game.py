@@ -23,6 +23,18 @@ class Game:
 	def get_players(self):
 		return self._players
 
+	def get_player(self, playerid):
+		if playerid in self._players:
+			return self._players[playerid]
+		else:
+			return None
+
+	def get_bullet(self, bulletid):
+		if bulletid in self._bullet_list:
+			return self._bullet_list[bulletid]
+		else:
+			return None
+
 	def create_world(self):
 		for i in range(100):
 			self._last_enegy_guid += 1

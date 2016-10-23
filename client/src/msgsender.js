@@ -31,6 +31,10 @@ var MsgSender = {
 	shoot:function(x, y, dirx, diry){
 		var timeStamp = Game.calServerTimeNow();
 		NetWork.sendMessage([MsgType.csShoot, timeStamp, x, y, dirx, diry])
+	},
+
+	hitPlayer:function(bulletId, playerId){
+		NetWork.sendMessage([MsgType.csHitPlayer, bulletId, playerId])
 	}
 
 };

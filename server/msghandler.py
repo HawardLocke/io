@@ -3,6 +3,7 @@ import time
 # from game import Game
 # from player import Player
 from datatypes import MsgType
+import settings
 
 
 class MsgHandler:
@@ -23,6 +24,7 @@ class MsgHandler:
 		self.regist(MsgType.csPing, on_ping)
 		self.regist(MsgType.csEatEnegyBall, on_eat_enegy_ball)
 		self.regist(MsgType.csShoot, on_shoot)
+		self.regist(MsgType.csHitPlayer, on_hit_player)
 
 	def on_msg(self, player, ws, data):
 		cmd = data
@@ -76,3 +78,20 @@ def on_shoot(player, ws, args):
 	dirx = args[4]
 	diry = args[5]
 	MsgHandler.game.on_shoot_bullet(player, timestamp, x, y, dirx, diry)
+
+
+def on_hit_player(player, ws, args):
+	bulletid = args[1]
+	playerid = args[2]
+	bullet = MsgHandler.game.get_bullet(bulletid)
+	if bullet is None:
+		return
+	player = MsgHandler.game.get_player(playerid)
+	if player is None:
+		return
+	bullet.is_dead = True
+	hurt = -settings.BULLET_DAMAGE_ENEGY
+	player.add_enegy(hurt)
+	MsgHandler.game.send_all(MsgType.scEnegyChange, playerid, hurt)
+	MsgHandler.game.send_all(MsgType.scHitPlayer, bulletid, playerid, hurt)
+	pass

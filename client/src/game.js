@@ -180,7 +180,7 @@ var Game = {
 
 	addBullet:function(bulletId,playerId,level,timeStamp,x,y,vx,vy){
 		if(this.bulletList[bulletId] == undefined){
-			var inst = new Bullet(bulletId,level,timeStamp);
+			var inst = new Bullet(bulletId,level,timeStamp,vx,vy);
 			this.bulletList[bulletId] = inst;
 			this.bulletCount ++;
 			inst.setPosition(x, y);
@@ -208,6 +208,15 @@ var Game = {
 
 	getBullet:function(id){
 		return this.bulletList[id];
+	},
+
+	tryGetHitPlayer:function(x,y){
+		for(var id in this.playerList){
+			var inst = this.playerList[id];
+			if(inst.checkHitCollider(x,y))
+				return inst;
+		}
+		return null;
 	}
 
 };

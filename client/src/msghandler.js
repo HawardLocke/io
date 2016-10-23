@@ -16,6 +16,7 @@ var MsgHandler = {
 		NetWork.registHandler(MsgType.scEnegyChange, this.onEnegyChange);
 		NetWork.registHandler(MsgType.scShoot, this.onShoot);
 		NetWork.registHandler(MsgType.scBulletInfo, this.onBulletInfo);
+		NetWork.registHandler(MsgType.scHitPlayer, this.onHitPlayer);
 	},
 
 	onError:function(args){
@@ -174,6 +175,19 @@ var MsgHandler = {
 		var playerId = args[2];
 		var dirx = args[3];
 		var diry = args[4];*/
+	},
+
+	onHitPlayer:function(args){
+		var bulletId = args[1];
+		var playerId = args[2];
+		var hurt = args[3];
+		Game.removeBullet(bulletId);
+		var playerInst = Game.getPlayer(playerId);
+		if (playerId == Game.myPlayerGuid){
+
+		}else{
+
+		}
 	}
 
 };
