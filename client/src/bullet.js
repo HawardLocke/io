@@ -21,10 +21,18 @@ var Bullet = BaseObj.extend({
 		this.maxPersistTime = this.getShootDistance() / this.speed;
 
 		var draw = new cc.DrawNode();
-		draw.drawDot(cc.p(0,0), 4, cc.color(255,0,0,255));
+		draw.drawDot(cc.p(0,0), 4, cc.color(255,255,255,255));
+		var segLen = 15;
+		draw.drawSegment(cc.p(0,0), cc.p(0,-segLen), 3, cc.color(255,255,0,255));
+		draw.drawSegment(cc.p(0,-segLen), cc.p(0,-segLen*2), 2, cc.color(255,128,0,255));
+		draw.drawSegment(cc.p(0,-segLen*2), cc.p(0,-segLen*3), 1, cc.color(255,70,0,200));
 		this.avatarBody.addChild(draw, 0);
-	},
 
+		// rotate
+		var radians = Math.atan2(vx, vy);
+		var degree = 180 * radians / io.PI;
+		this.setRotation(degree);
+	},
 
 	// overrides
 
