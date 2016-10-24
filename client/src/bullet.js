@@ -67,7 +67,7 @@ var Bullet = BaseObj.extend({
 		}
 
 		// check hit
-		if (!this.isDead && !this.isHit){
+		if (this.ownerGuid == Game.myPlayerGuid && !this.isDead && !this.isHit){
 			// oldx oldy x y
 			var dx = this.x - oldx;
 			var dy = this.y - oldy;
