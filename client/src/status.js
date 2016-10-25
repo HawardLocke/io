@@ -66,6 +66,7 @@ var StateAccount = StateBase.extend({
 
 var StatePlay = StateBase.extend({
 
+	// labels of system
 	labelCount:0,
 	delayLabel:null,
 	forceLabel:null,
@@ -75,22 +76,35 @@ var StatePlay = StateBase.extend({
 	playersLabel:null,
 	minmap:null,
 
+	// rank
+	rankCount:10,
+	rankIndexLabels:[],
+	rankNameLabels:[],
+	rankScoreLabels:[],
+
 	onEnter:function(){
 		this._super();
 
 		gameScene.getWorldLayer().setVisible(true);
 
-		this.delayLabel = this.appendLabel();
-		this.forceLabel = this.appendLabel();
-		this.speedLabel = this.appendLabel();
-		this.serverTimeLabel = this.appendLabel();
-		this.bulletsLabel = this.appendLabel();
-		this.playersLabel = this.appendLabel();
+		this.delayLabel = this.appendSysLabel();
+		this.forceLabel = this.appendSysLabel();
+		this.speedLabel = this.appendSysLabel();
+		this.serverTimeLabel = this.appendSysLabel();
+		this.bulletsLabel = this.appendSysLabel();
+		this.playersLabel = this.appendSysLabel();
 
 		this.minmap = new cc.DrawNode();
 		this.minmap.x = cc.winSize.width - 110;
 		this.minmap.y = cc.winSize.height - 110;
 		this.node.addChild(this.minmap, 5);
+
+		// rank
+		for(var rk = 0; rk < this.rankCount; ++rk){
+			this.rankIndexLabels[rk] = this.appendRankIndexLabel(rk);
+			this.rankNameLabels[rk] = this.appendRankNameLabel(rk);
+			this.rankScoreLabels[rk] = this.appendRankScoreLabel(rk);
+		}
 
 		MsgSender.join();
 	},
@@ -137,12 +151,43 @@ var StatePlay = StateBase.extend({
 		}
 	},
 
-	appendLabel:function(){
+	appendSysLabel:function(){
 		var lineHeight = 20;
 		this.labelCount ++;
 		var label = new cc.LabelTTF("new label", "Arial", 14);
 		label.x = cc.winSize.width - 100;
 		label.y = lineHeight * this.labelCount;
+		label.color = cc.color(0,255,0,255);
+		this.node.addChild(label, 5);
+		return label;
+	},
+
+	appendRankIndexLabel:function(index){
+		var lineHeight = 24;
+		var label = new cc.LabelTTF(""+(index+1), "Arial", 18, cc.size(20,32), cc.TEXT_ALIGNMENT_CENTER);
+		label.x = 20;
+		label.y = cc.winSize.height - lineHeight * (index+1);
+		label.color = cc.color(io.commonColors[index][0],io.commonColors[index][1],io.commonColors[index][2]);//cc.color(0,255,255,255);
+		this.node.addChild(label, 5);
+		return label;
+	},
+
+	appendRankNameLabel:function(index){
+		var lineHeight = 24;
+		var label = new cc.LabelTTF("Locke00"+index, "Arial", 18, cc.size(200,32), cc.TEXT_ALIGNMENT_CENTER);
+		label.x = 110;
+		label.y = cc.winSize.height - lineHeight * (index+1);
+		label.color = cc.color(io.commonColors[index][0],io.commonColors[index][1],io.commonColors[index][2]);
+		this.node.addChild(label, 5);
+		return label;
+	},
+
+	appendRankScoreLabel:function(index){
+		var lineHeight = 24;
+		var label = new cc.LabelTTF("3695"+index, "Arial", 18, cc.size(100,32), cc.TEXT_ALIGNMENT_LEFT);
+		label.x = 250;
+		label.y = cc.winSize.height - lineHeight * (index+1);
+		label.color = cc.color(io.commonColors[index][0],io.commonColors[index][1],io.commonColors[index][2]);
 		this.node.addChild(label, 5);
 		return label;
 	}

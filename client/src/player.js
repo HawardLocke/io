@@ -56,7 +56,7 @@ var Player = BaseObj.extend({
 
 		var colorRgb = io.commonColors[color];
 		var bodyColor = cc.color(colorRgb[0], colorRgb[1], colorRgb[2], 255);
-		var lineWidth = 2;
+		var lineWidth = 4;
 
 		var draw = new cc.DrawNode();
 		//draw.drawDot(cc.p(0,0), this.radius, bodyColor);
