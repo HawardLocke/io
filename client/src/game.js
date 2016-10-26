@@ -180,7 +180,7 @@ var Game = {
 
 	addBullet:function(bulletId,playerId,level,timeStamp,x,y,vx,vy){
 		if(this.bulletList[bulletId] == undefined){
-			var inst = new Bullet(bulletId,level,timeStamp,vx,vy);
+			var inst = new Bullet(bulletId,playerId,level,timeStamp,vx,vy);
 			this.bulletList[bulletId] = inst;
 			this.bulletCount ++;
 			inst.setPosition(x, y);

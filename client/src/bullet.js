@@ -11,9 +11,10 @@ var Bullet = BaseObj.extend({
 	isDead:false,
 	isHit:false,
 
-	ctor:function(id, level, timeStamp, vx, vy){
+	ctor:function(id, playerId, level, timeStamp, vx, vy){
 		this._super();
 		this.id = id;
+		this.ownerGuid = playerId;
 		this.level = level;
 		this.spawnTime = timeStamp;
 
