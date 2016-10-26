@@ -67,6 +67,7 @@ var StateAccount = StateBase.extend({
 var StatePlay = StateBase.extend({
 
 	// labels of system
+	sysRootNode:null,
 	labelCount:0,
 	delayLabel:null,
 	forceLabel:null,
@@ -74,18 +75,28 @@ var StatePlay = StateBase.extend({
 	serverTimeLabel:null,
 	bulletsLabel:null,
 	playersLabel:null,
+
+	// minimap
 	minmap:null,
 
 	// rank
+	rankRootNode:null,
 	rankCount:10,
 	rankIndexLabels:[],
 	rankNameLabels:[],
 	rankScoreLabels:[],
 
+
 	onEnter:function(){
 		this._super();
 
 		gameScene.getWorldLayer().setVisible(true);
+
+		// system
+		this.sysRootNode = new cc.Node();
+		this.sysRootNode.x = 0;
+		this.sysRootNode.y = 0;
+		this.node.addChild(this.sysRootNode, 5);
 
 		this.delayLabel = this.appendSysLabel();
 		this.forceLabel = this.appendSysLabel();
@@ -94,12 +105,22 @@ var StatePlay = StateBase.extend({
 		this.bulletsLabel = this.appendSysLabel();
 		this.playersLabel = this.appendSysLabel();
 
+		// minimap
 		this.minmap = new cc.DrawNode();
 		this.minmap.x = cc.winSize.width - 110;
 		this.minmap.y = cc.winSize.height - 110;
 		this.node.addChild(this.minmap, 5);
 
 		// rank
+		this.rankRootNode = new cc.Node();
+		this.rankRootNode.x = 0;
+		this.rankRootNode.y = -20;
+		this.node.addChild(this.rankRootNode, 5);
+		var leaderBoard = new cc.LabelTTF("LeaderBoard", "Arial", 24, cc.size(200,36), cc.TEXT_ALIGNMENT_CENTER);
+		leaderBoard.x = 120;
+		leaderBoard.y = cc.winSize.height;
+		leaderBoard.color = cc.color(0,255,255,255);
+		this.rankRootNode.addChild(leaderBoard);
 		for(var rk = 0; rk < this.rankCount; ++rk){
 			this.rankIndexLabels[rk] = this.appendRankIndexLabel(rk);
 			this.rankNameLabels[rk] = this.appendRankNameLabel(rk);
@@ -158,17 +179,17 @@ var StatePlay = StateBase.extend({
 		label.x = cc.winSize.width - 100;
 		label.y = lineHeight * this.labelCount;
 		label.color = cc.color(0,255,0,255);
-		this.node.addChild(label, 5);
+		this.sysRootNode.addChild(label);
 		return label;
 	},
 
 	appendRankIndexLabel:function(index){
 		var lineHeight = 24;
-		var label = new cc.LabelTTF(""+(index+1), "Arial", 18, cc.size(20,32), cc.TEXT_ALIGNMENT_CENTER);
+		var label = new cc.LabelTTF("#"+(index+1), "Arial", 18, cc.size(40,32), cc.TEXT_ALIGNMENT_CENTER);
 		label.x = 20;
 		label.y = cc.winSize.height - lineHeight * (index+1);
 		label.color = cc.color(io.commonColors[index][0],io.commonColors[index][1],io.commonColors[index][2]);//cc.color(0,255,255,255);
-		this.node.addChild(label, 5);
+		this.rankRootNode.addChild(label);
 		return label;
 	},
 
@@ -178,7 +199,7 @@ var StatePlay = StateBase.extend({
 		label.x = 110;
 		label.y = cc.winSize.height - lineHeight * (index+1);
 		label.color = cc.color(io.commonColors[index][0],io.commonColors[index][1],io.commonColors[index][2]);
-		this.node.addChild(label, 5);
+		this.rankRootNode.addChild(label);
 		return label;
 	},
 
@@ -188,7 +209,7 @@ var StatePlay = StateBase.extend({
 		label.x = 250;
 		label.y = cc.winSize.height - lineHeight * (index+1);
 		label.color = cc.color(io.commonColors[index][0],io.commonColors[index][1],io.commonColors[index][2]);
-		this.node.addChild(label, 5);
+		this.rankRootNode.addChild(label);
 		return label;
 	}
 
