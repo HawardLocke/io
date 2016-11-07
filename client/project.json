@@ -24,6 +24,10 @@
         "src/bullet.js",
 		"src/touchcontrol.js",
         "src/msghandler.js",
-		"src/msgsender.js"
+		"src/msgsender.js",
+
+		"src/protobuf/MsgID.js",
+		"src/protobuf/login_pb.js",
+		"src/protobuf/chat_pb.js"
 	]
 }

@@ -36,5 +36,5 @@ var MsgSender = {
 	hitPlayer:function(bulletId, playerId){
 		NetWork.sendMessage([MsgType.csHitPlayer, bulletId, playerId])
 	}
-
+	
 };

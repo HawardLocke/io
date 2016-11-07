@@ -31,8 +31,24 @@ var Game = {
 	bulletList:{},
 	deleteBulletList:[],
 
+	testProtobuf:function(){
+		var message = new proto.LiteServer.Login();
+
+		message.setName("Locke007");
+		message.setPassword("2333");
+
+		// Serializes to a UInt8Array.
+		var bytes = message.serializeBinary();
+
+		var message2 = proto.LiteServer.Login.deserializeBinary(bytes);
+
+		cc.log(message2.getName());
+		cc.log(message2.getPassword());
+	},
+
 
 	init:function(){
+		this.testProtobuf();
 		this.statusMap[StateType.ST_ACCOUNT] = new StateAccount(gameScene);
 		this.statusMap[StateType.ST_PLAY] = new StatePlay(gameScene);
 		this.statusMap[StateType.ST_OVER] = new StateOver(gameScene);
