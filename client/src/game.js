@@ -32,7 +32,8 @@ var Game = {
 	deleteBulletList:[],
 
 	testProtobuf:function(){
-		var message = new proto.LiteServer.Login();
+		//var protobuf = require("protobufjs");
+		/*var message = new proto.LiteServer.Login();
 
 		message.setName("Locke007");
 		message.setPassword("2333");
@@ -43,7 +44,7 @@ var Game = {
 		var message2 = proto.LiteServer.Login.deserializeBinary(bytes);
 
 		cc.log(message2.getName());
-		cc.log(message2.getPassword());
+		cc.log(message2.getPassword());*/
 	},
 
 
