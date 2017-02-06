@@ -16,7 +16,7 @@ var MsgHandler = {
 		NetWork.registHandler(MsgType.scEnegyChange, this.onEnegyChange);
 		NetWork.registHandler(MsgType.scShoot, this.onShoot);
 		NetWork.registHandler(MsgType.scBulletInfo, this.onBulletInfo);
-		NetWork.registHandler(MsgType.scHitPlayer, this.onHitPlayer);
+		NetWork.registHandler(MsgType.scHitPlayer, this.onHitPlayer);*/
 	},
 
 	onError:function(args){
